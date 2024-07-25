@@ -5,7 +5,7 @@ import { NewLinkModal } from "./modals/new-link-modal copy";
 import { ImportantLinks } from "./important-links";
 import { Guests } from "./guests";
 import { Activities } from "./activities";
-import { DestinationAndDateHeader } from "./distination-and-date-header";
+import { DestinationAndDateHeader } from "./destination-and-date-header";
 import { Button } from "../../components/button";
 
 export function TripDetailsPage() {
