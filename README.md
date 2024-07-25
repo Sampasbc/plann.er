@@ -1,4 +1,15 @@
-Plann.er
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Fastify](https://img.shields.io/badge/Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+
+
+
+Plann.er 📷
 ========
 
 Plann.er is a collaborative trip planning web application designed to help you organize and manage your trips effectively. With Plann.er, you can plan your trip, create daily activities, share important links, and invite others to contribute to the planning process.
@@ -47,8 +58,8 @@ Ensure you have the following installed:
 
     Copy code
 
-    `git clone https://github.com/yourusername/planner.git
-    cd planner`
+    `git clone https://github.com/Sampasbc/plann.er_group-trip-planning.git
+    cd plann.er`
 
 2.  **Navigate to the frontend directory**:
 
@@ -56,7 +67,7 @@ Ensure you have the following installed:
 
     Copy code
 
-    `cd frontend`
+    `cd client`
 
 3.  **Install dependencies**:
 
@@ -78,8 +89,6 @@ Ensure you have the following installed:
     # or
     yarn dev`
 
-    The frontend will be available at `http://localhost:3000`.
-
 ### Backend Setup
 
 1.  **Navigate to the backend directory**:
@@ -88,7 +97,7 @@ Ensure you have the following installed:
 
     Copy code
 
-    `cd ../backend`
+    `cd ../server`
 
 2.  **Install dependencies**:
 
@@ -108,24 +117,44 @@ Ensure you have the following installed:
 
     `npx prisma migrate dev`
 
-4.  **Start the server**:
+4.  **Settup environmental variables**:
+
+    Create a .env file on "/server" if needed.
+
+    On your .env file look for these variables and change them accordingly:
+
+    bash
+    
+    `DATABASE_URL="file:./dev.db"`
+    
+    `API_BASE_URL = "[your network IP or https://localhost]"
+    // This is the API host`
+    
+    `PORT = "[a port for the API (ex. 3333)]"` 
+    
+    `CLIENT_BASE_URL = "[your network IP or https://localhost]"
+    // This is the Client host`
+    
+    `CLIENT_PORT = "[a port for the client (ex. 5555)]"` 
+    
+6.  **Start the server**:
 
     bash
 
     Copy code
 
-    `npm start
+    `npm run dev
     # or
-    yarn start`
+    yarn dev`
 
-    The backend will be available at `http://localhost:3001`.
+    The backend will be available at `http://[your custom API host]:[your custom API port]`.
 
 Usage
 -----
 
 1.  **Open the application**:
 
-    Navigate to `http://localhost:3000` in your browser to access the Plann.er app.
+    Navigate to `http://[Client host]:[Client port]` in your browser to access the Plann.er app.
 
 2.  **Create a Trip**:
 
@@ -161,4 +190,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 Contact
 -------
 
-For any questions or support, please reach out to your.email@example.com.
+For any questions or support, please reach out to fernandosbcunha@gmail.com
