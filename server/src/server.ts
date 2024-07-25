@@ -13,6 +13,7 @@ import { inviteParticipant } from "./routes/participants/create-invite";
 import { updateTrip } from "./routes/trips/update-trip";
 import { getTripDetails } from "./routes/trips/get-trip-details";
 import { getParticipant } from "./routes/participants/get-participant";
+import { updateParticipant } from "./routes/participants/update-participant";
 
 export const LOCAL_IP = '192.168.1.214'
 export const SERVER_PORT = 3333
@@ -50,6 +51,9 @@ app.register(getParticipants)
 
 // GET '/participants/:participantId'
 app.register(getParticipant)
+
+// GET '/participants/:participantId/update'
+app.register(updateParticipant)
 
 // GET '/trips/:tripId/participants/invite'
 app.register(inviteParticipant)
