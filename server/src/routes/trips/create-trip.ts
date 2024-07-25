@@ -5,12 +5,11 @@ import nodemailer from "nodemailer";
 import { z } from 'zod';
 import { getMailClient } from "../../lib/mail";
 import { prisma } from "../../lib/prisma";
-import { LOCAL_IP, SERVER_PORT } from "../../server";
 import { ClientError } from "../../errors/client-error";
+import { env } from "../../env";
 
 export async function createTrip(app: FastifyInstance) {
 
-  // POST request
   app.withTypeProvider<ZodTypeProvider>().post('/trips', {
     schema: {
       body: z.object({
@@ -64,7 +63,7 @@ export async function createTrip(app: FastifyInstance) {
     // Email handler
     const mail = await getMailClient()
 
-    const confirmationLink = `http://${LOCAL_IP}:${SERVER_PORT}/trips/${trip.id}/confirm`
+    const confirmationLink = `${env.API_BASE_URL}:${env.PORT}/trips/${trip.id}/confirm`
 
     const message = await mail.sendMail({
       from: {

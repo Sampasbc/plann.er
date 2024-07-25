@@ -5,8 +5,8 @@ import { prisma } from "../../lib/prisma";
 import { getMailClient } from "../../lib/mail";
 import nodemailer from 'nodemailer'
 import dayjs from "dayjs";
-import { LOCAL_IP, SERVER_PORT } from "../../server";
 import { ClientError } from "../../errors/client-error";
+import { env } from "../../env";
 
 export async function inviteParticipant(app: FastifyInstance) {
 
@@ -41,7 +41,7 @@ export async function inviteParticipant(app: FastifyInstance) {
 
     const mail = await getMailClient()
 
-    const confirmationLink = `http://${LOCAL_IP}:${SERVER_PORT}/participants/${participant.id}/confirm`
+    const confirmationLink = `${env.API_BASE_URL}:${env.PORT}/participants/${participant.id}/confirm`
 
     const message = await mail.sendMail({
       from: {

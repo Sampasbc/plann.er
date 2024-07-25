@@ -15,14 +15,16 @@ import { getTripDetails } from "./routes/trips/get-trip-details";
 import { getParticipant } from "./routes/participants/get-participant";
 import { updateParticipant } from "./routes/participants/update-participant";
 import { errorHandler } from "./error-handler";
-
-export const LOCAL_IP = '192.168.1.214'
-export const SERVER_PORT = 3333
+import { env } from "./env";
+import { formatRemoveHTTP } from "./lib/format-url";
 
 const app = fastify()
 
 app.register(cors, {
-  origin: `https://${LOCAL_IP}:${SERVER_PORT}`,
+  origin: [
+    env.API_BASE_URL.concat(env.PORT.toString()),
+    env.CLIENT_BASE_URL.concat(env.PORT.toString())
+  ]
 })
 
 app.setValidatorCompiler(validatorCompiler)
@@ -74,6 +76,6 @@ app.register(createLink)
 app.register(getLink)
 
 
-app.listen({ port: SERVER_PORT, host: LOCAL_IP }).then(() => {
-  console.log(`Server running!\nAccess on http://${LOCAL_IP}:3333`)
+app.listen({ port: 3333, host: formatRemoveHTTP(env.API_BASE_URL, 'http') }).then(() => {
+  console.log(`Server running!\nAccess on ${env.API_BASE_URL}:${env.PORT}`)
 })

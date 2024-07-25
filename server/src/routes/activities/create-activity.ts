@@ -1,16 +1,12 @@
 import dayjs from "dayjs";
 import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import nodemailer from "nodemailer";
 import { z } from 'zod';
-import { getMailClient } from "../../lib/mail";
 import { prisma } from "../../lib/prisma";
-import { LOCAL_IP, SERVER_PORT } from "../../server";
 import { ClientError } from "../../errors/client-error";
 
 export async function createActivity(app: FastifyInstance) {
 
-  // POST request
   app.withTypeProvider<ZodTypeProvider>().post('/trips/:tripId/activities/create', {
     schema: {
       params: z.object({

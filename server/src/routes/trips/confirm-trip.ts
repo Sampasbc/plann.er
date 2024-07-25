@@ -5,12 +5,11 @@ import nodemailer from "nodemailer";
 import { z } from 'zod';
 import { getMailClient } from "../../lib/mail";
 import { prisma } from "../../lib/prisma";
-import { LOCAL_IP, SERVER_PORT } from "../../server";
 import { ClientError } from "../../errors/client-error";
+import { env } from "../../env";
 
 export async function confirmTrip(app: FastifyInstance) {
 
-  // POST request
   app.withTypeProvider<ZodTypeProvider>().get('/trips/:tripId/confirm', {
     schema: {
       params: z.object({
@@ -41,7 +40,7 @@ export async function confirmTrip(app: FastifyInstance) {
 
     // Redirect if trip is alredy confirmed
     if (trip.is_confirmed) {
-      return reply.redirect(`http://localhost:5173/trips/${tripId}`)
+      return reply.redirect(`${env.CLIENT_BASE_URL}:${env.CLIENT_PORT}/trips/${tripId}`)
     }
 
     await prisma.trip.update({
@@ -55,7 +54,7 @@ export async function confirmTrip(app: FastifyInstance) {
     await Promise.all(
       trip.participants.map(async (participant) => {
 
-        const confirmationLink = `http://${LOCAL_IP}:${SERVER_PORT}/participants/${participant.id}/confim`
+        const confirmationLink = `${env.API_BASE_URL}:${env.PORT}/participants/${participant.id}/confim`
 
         const message = await mail.sendMail({
           from: {
@@ -88,6 +87,6 @@ export async function confirmTrip(app: FastifyInstance) {
       })
     )
 
-    return reply.redirect(`http://localhost:5173/trips/${tripId}`)
+    return reply.redirect(`${env.CLIENT_BASE_URL}:${env.CLIENT_PORT}/trips/${tripId}`)
   })
 }
