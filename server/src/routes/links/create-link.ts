@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from 'zod';
 import { prisma } from "../../lib/prisma";
+import { ClientError } from "../../errors/client-error";
 
 export async function createLink(app: FastifyInstance) {
 
@@ -25,7 +26,7 @@ export async function createLink(app: FastifyInstance) {
 
     // Validate if trip exists
     if (!trip) {
-      throw new Error('The trip you\'re trying to add a link does not exist.')
+      throw new ClientError('The trip you\'re trying to add a link does not exist.')
     }
 
     const link = await prisma.link.create({

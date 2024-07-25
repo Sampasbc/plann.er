@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { getMailClient } from "../../lib/mail";
 import { prisma } from "../../lib/prisma";
 import { LOCAL_IP, SERVER_PORT } from "../../server";
+import { ClientError } from "../../errors/client-error";
 
 export async function confirmTrip(app: FastifyInstance) {
 
@@ -35,7 +36,7 @@ export async function confirmTrip(app: FastifyInstance) {
 
     // Throw error if trip is not on DB
     if (!trip) {
-      throw new Error('Trip not found.')
+      throw new ClientError('Trip not found.')
     }
 
     // Redirect if trip is alredy confirmed

@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { getMailClient } from "../../lib/mail";
 import { prisma } from "../../lib/prisma";
 import { LOCAL_IP, SERVER_PORT } from "../../server";
+import { ClientError } from "../../errors/client-error";
 
 export async function createActivity(app: FastifyInstance) {
 
@@ -30,12 +31,12 @@ export async function createActivity(app: FastifyInstance) {
 
     // Validate if trip exists
     if (!trip) {
-      throw new Error('The trip you\'re trying to add an activity does not exist.')
+      throw new ClientError('The trip you\'re trying to add an activity does not exist.')
     }
 
     // Validate if activity occurs on trip time period
     if (dayjs(occurs_at).isAfter(trip.ends_at) || dayjs(occurs_at).isBefore(trip.starts_at)) {
-      throw new Error('The activity must be between the trip time period.')
+      throw new ClientError('The activity must be between the trip time period.')
     }
 
     const activity = await prisma.activity.create({

@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from 'zod';
 import { prisma } from "../../lib/prisma";
+import { ClientError } from "../../errors/client-error";
 
 export async function updateParticipant(app: FastifyInstance) {
 
@@ -24,11 +25,11 @@ export async function updateParticipant(app: FastifyInstance) {
     })
 
     if (!participant) {
-      throw new Error('The participant you\'re looking for does not exist.')
+      throw new ClientError('The participant you\'re looking for does not exist.')
     }
 
     if (participant.name == name) {
-      throw new Error('The participant already has the current name.')
+      throw new ClientError('The participant already has the current name.')
     }
 
     await prisma.participant.update({

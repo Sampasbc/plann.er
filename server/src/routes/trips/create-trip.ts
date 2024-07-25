@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { getMailClient } from "../../lib/mail";
 import { prisma } from "../../lib/prisma";
 import { LOCAL_IP, SERVER_PORT } from "../../server";
+import { ClientError } from "../../errors/client-error";
 
 export async function createTrip(app: FastifyInstance) {
 
@@ -26,12 +27,12 @@ export async function createTrip(app: FastifyInstance) {
 
     // Start date validation
     if (dayjs(starts_at).isBefore(new Date())) {
-      throw new Error('Invalid trip start date.')
+      throw new ClientError('Invalid trip start date.')
     }
 
     // End date validation
     if (dayjs(ends_at).isBefore(starts_at)) {
-      throw new Error('Invalid trip end date.')
+      throw new ClientError('Invalid trip end date.')
     }
 
     // await prisma.$transaction(tx => {})

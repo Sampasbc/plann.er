@@ -6,6 +6,7 @@ import { getMailClient } from "../../lib/mail";
 import nodemailer from 'nodemailer'
 import dayjs from "dayjs";
 import { LOCAL_IP, SERVER_PORT } from "../../server";
+import { ClientError } from "../../errors/client-error";
 
 export async function inviteParticipant(app: FastifyInstance) {
 
@@ -28,7 +29,7 @@ export async function inviteParticipant(app: FastifyInstance) {
 
     // Validate if trip exists
     if (!trip) {
-      throw new Error('The trip you\'re trying to invite someone does not exist.')
+      throw new ClientError('The trip you\'re trying to invite someone does not exist.')
     }
 
     const participant = await prisma.participant.create({

@@ -14,6 +14,7 @@ import { updateTrip } from "./routes/trips/update-trip";
 import { getTripDetails } from "./routes/trips/get-trip-details";
 import { getParticipant } from "./routes/participants/get-participant";
 import { updateParticipant } from "./routes/participants/update-participant";
+import { errorHandler } from "./error-handler";
 
 export const LOCAL_IP = '192.168.1.214'
 export const SERVER_PORT = 3333
@@ -24,8 +25,10 @@ app.register(cors, {
   origin: `https://${LOCAL_IP}:${SERVER_PORT}`,
 })
 
-app.setValidatorCompiler(validatorCompiler);
-app.setSerializerCompiler(serializerCompiler);
+app.setValidatorCompiler(validatorCompiler)
+app.setSerializerCompiler(serializerCompiler)
+
+app.setErrorHandler(errorHandler)
 
 app.get('/', () => {
   return 'Index Page'

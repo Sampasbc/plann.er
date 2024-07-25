@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from 'zod';
 import { prisma } from "../../lib/prisma";
+import { ClientError } from "../../errors/client-error";
 
 export async function confirmParticipation(app: FastifyInstance) {
 
@@ -22,7 +23,7 @@ export async function confirmParticipation(app: FastifyInstance) {
     })
 
     if (!invitedGuest) {
-      throw new Error('Invited guest does not exist.')
+      throw new ClientError('Invited guest does not exist.')
     }
 
     if (invitedGuest.is_confirmed) {
