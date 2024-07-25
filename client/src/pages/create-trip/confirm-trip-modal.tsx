@@ -1,19 +1,34 @@
 import { Mail, Plus, User, X } from "lucide-react";
 import { FormEvent } from "react";
 import { Button } from "../../components/button";
+import { DateRange } from "react-day-picker";
+import { format } from "date-fns";
 
 interface ConfirmTripModalProps {
+  enabledInput: string
+  destination: string
+  dateRange: DateRange | undefined
   closeConfirmTripModal: () => void
   createTrip: (event: FormEvent<HTMLFormElement>) => void
-  enabledInput: string
+  setOwnerName: (name: string) => void
+  setOwnerEmail: (email: string) => void
 }
 
 
 export function ConfirmTripModal({
   closeConfirmTripModal,
   createTrip,
-  enabledInput
- }: ConfirmTripModalProps) {
+  enabledInput,
+  setOwnerEmail,
+  setOwnerName,
+  destination,
+  dateRange
+}: ConfirmTripModalProps) {
+
+  const displayDate =
+    dateRange &&
+      dateRange.from ?
+      `${format(dateRange.from, 'dd/MMM')} ${dateRange.to ? `to ${format(dateRange.to, 'dd/MMM')}` : ''}` : '';
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -25,11 +40,11 @@ export function ConfirmTripModal({
           <div className='flex items-center justify-between'>
             <h2 className='text-lg font-semibold'>Confirmar criação da viagem</h2>
             <button>
-              <X onClick={closeConfirmTripModal} className='size-5 text-zinc-400'/>
+              <X onClick={closeConfirmTripModal} className='size-5 text-zinc-400' />
             </button>
           </div>
 
-          <p className='text-sm text-zinc-400'>Para concluir a criação da viagem para <span className='font-semibold text-zinc-100' >Florianópolis, Brasil</span> nas datas de <span className='font-semibold text-zinc-100'>16 a 27 de Agosto de 2024</span> preencha seus dados abaixo:</p>
+          <p className='text-sm text-zinc-400'>Para concluir a criação da viagem para <span className='font-semibold text-zinc-100' >{destination}</span> nas datas de <span className='font-semibold text-zinc-100'>{displayDate}</span> preencha seus dados abaixo:</p>
         </div>
 
         {/* Form */}
@@ -38,22 +53,24 @@ export function ConfirmTripModal({
           <div className='space-y-2'>
             {/* Input Name*/}
             <div className='h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
-              <User className='text-zinc-400 size-5'/>
-              <input 
-                type="text" 
-                name="name" 
-                placeholder="Seu nome completo" 
+              <User className='text-zinc-400 size-5' />
+              <input
+                onChange={event => setOwnerName(event.target.value)}
+                type="text"
+                name="name"
+                placeholder="Seu nome completo"
                 className={enabledInput + ' flex-1'}
               />
             </div>
 
             {/* Input Email*/}
             <div className='h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
-              <Mail className='text-zinc-400 size-5'/>
-              <input 
-                type="email" 
-                name="email" 
-                placeholder="Seu e-mail pessoal" 
+              <Mail className='text-zinc-400 size-5' />
+              <input
+                onChange={event => setOwnerEmail(event.target.value)}
+                type="email"
+                name="email"
+                placeholder="Seu e-mail pessoal"
                 className={enabledInput + ' flex-1'}
               />
             </div>

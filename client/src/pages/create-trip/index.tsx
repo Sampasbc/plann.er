@@ -4,6 +4,8 @@ import { InviteGuestModal } from './invite-guest-modal';
 import { ConfirmTripModal } from './confirm-trip-modal';
 import { DestinationAndDateStep } from './steps/destination-and-date-step';
 import { InviteGuestStep } from './steps/invite-guest-step';
+import { DateRange } from 'react-day-picker';
+import { api } from '../../lib/axios';
 
 export function CreateTripPage() {
 
@@ -13,10 +15,15 @@ export function CreateTripPage() {
   const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
+  const [destination, setDestination] = useState('')
+  const [ownerName, setOwnerName] = useState('')
+  const [ownerEmail, setOwnerEmail] = useState('')
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [emailsToInvite, setEmailsToInvite] = useState([
     'fernandosbcunha@gmail.com',
     'john@acme.com'
   ]);
+
 
   function openGuestInput() {
     setIsGuestInputOpen(true);
@@ -27,36 +34,36 @@ export function CreateTripPage() {
   }
 
   function openGuestModal() {
-    setIsGuestModalOpen(true); 
+    setIsGuestModalOpen(true);
   }
 
   function closeGuestModal() {
-    setIsGuestModalOpen(false); 
+    setIsGuestModalOpen(false);
   }
 
   function openConfirmTripModal() {
-    setIsConfirmModalOpen(true); 
+    setIsConfirmModalOpen(true);
   }
 
   function closeConfirmTripModal() {
-    setIsConfirmModalOpen(false); 
+    setIsConfirmModalOpen(false);
   }
 
   // Add Emails to Invite
   function addNewEmailToInvite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    
+
     // Get typed Email
     const data = new FormData(event.currentTarget);
     const email = data.get('email')?.toString();
 
     // If nothing is passed in
-    if (!email){
+    if (!email) {
       return;
     }
 
     // Duplication validation
-    if (emailsToInvite.includes(email)){
+    if (emailsToInvite.includes(email)) {
       window.alert(`O email '${email}' já está adicionado à lista.`);
       return;
     }
@@ -78,10 +85,39 @@ export function CreateTripPage() {
   }
 
   // Create Trip
-  function createTrip(event: FormEvent<HTMLFormElement>) {
+  async function createTrip(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    navigate('/trip/123');
+    // Validade if all information is filled
+    if (
+      !destination ||
+      !dateRange ||
+      !ownerName ||
+      !ownerEmail ||
+      !emailsToInvite
+    ) return;
+
+    if (emailsToInvite.length === 0) {
+      return
+    }
+
+    const response = await api.post('/trips', {
+      destination: destination,
+      starts_at: dateRange.from,
+      ends_at: dateRange.to,
+      owner_name: ownerName,
+      owner_email: ownerEmail,
+      emails_to_invite: emailsToInvite,
+    })
+
+    if (response.status !== 200) {
+      window.alert('Connection Error!')
+      return
+    }
+
+    const { tripId } = response.data
+
+    navigate(`/trip/${tripId}`);
   }
 
   // Class Variables
@@ -90,7 +126,7 @@ export function CreateTripPage() {
 
   return (
     <div className="h-screen flex items-center justify-center bg-pattern bg-no-repeat bg-center">
-      
+
       {/* Main */}
       <div className="max-w-3xl w-full px-6 text-center space-y-10">
         {/* Title */}
@@ -98,7 +134,7 @@ export function CreateTripPage() {
           <img src="/logo.svg" alt="plann.er" />
           <p className="text-zinc-300 text-lg">Convide seus amigos e planeje sua próxima viagem!</p>
         </div>
-    
+
         {/* Input Bars */}
         <div className='flex flex-col gap-4'>
           <DestinationAndDateStep
@@ -107,22 +143,25 @@ export function CreateTripPage() {
             isGuestInputOpen={isGuestInputOpen}
             enabledInput={enabledInput}
             disabledInput={disabledInput}
+            setDestination={setDestination}
+            setDateRange={setDateRange}
+            dateRange={dateRange}
           />
-          
+
 
           {/* Guests Input */}
           {isGuestInputOpen && (
-            <InviteGuestStep 
+            <InviteGuestStep
               emailsToInvite={emailsToInvite}
               openConfirmTripModal={openConfirmTripModal}
               openGuestModal={openGuestModal}
             />
           )}
-          
+
         </div>
 
         <p className="text-sm text-zinc-500">
-          Ao planejar sua viagem pela plann.er você automaticamente concorda <br/>
+          Ao planejar sua viagem pela plann.er você automaticamente concorda <br />
           com nossos <a className="text-zinc-300 underline" href="#">termos de uso</a> e <a className="text-zinc-300 underline" href="#">políticas de privacidade</a>.
         </p>
 
@@ -130,7 +169,7 @@ export function CreateTripPage() {
 
       {/* Modal Invite*/}
       {isGuestModalOpen && (
-        <InviteGuestModal 
+        <InviteGuestModal
           emailsToInvite={emailsToInvite}
           addNewEmailToInvite={addNewEmailToInvite}
           removeEmailFromInvite={removeEmailFromInvite}
@@ -141,10 +180,14 @@ export function CreateTripPage() {
 
       {/* Modal Confirm*/}
       {isConfirmModalOpen && (
-        <ConfirmTripModal 
+        <ConfirmTripModal
           createTrip={createTrip}
           closeConfirmTripModal={closeConfirmTripModal}
           enabledInput={enabledInput}
+          setOwnerEmail={setOwnerEmail}
+          setOwnerName={setOwnerName}
+          destination={destination}
+          dateRange={dateRange}
         />
       )}
 

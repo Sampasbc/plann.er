@@ -22,8 +22,8 @@ const app = fastify()
 
 app.register(cors, {
   origin: [
-    env.API_BASE_URL.concat(env.PORT.toString()),
-    env.CLIENT_BASE_URL.concat(env.PORT.toString())
+    `${env.CLIENT_BASE_URL}:${env.CLIENT_PORT}`,
+    `${env.API_BASE_URL}:${env.PORT}`,
   ]
 })
 
