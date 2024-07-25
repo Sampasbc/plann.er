@@ -54,98 +54,90 @@ Ensure you have the following installed:
 
 1.  **Clone the repository**:
 
-    bash
-
-    Copy code
-
-    `git clone https://github.com/Sampasbc/plann.er_group-trip-planning.git
-    cd plann.er`
-
+    ```console
+    git clone https://github.com/Sampasbc/plann.er_group-trip-planning.git
+    cd plann.er
+    ```
+    
 2.  **Navigate to the frontend directory**:
 
-    bash
-
-    Copy code
-
-    `cd client`
-
+    ```console
+    cd client
+    ```
+    
 3.  **Install dependencies**:
 
-    bash
+    ```console
+    npm install
+    ```
+    **or**
+    ```console
+    yarn install
+    ```
 
-    Copy code
+5.  **Start the development server**:
 
-    `npm install
-    # or
-    yarn install`
-
-4.  **Start the development server**:
-
-    bash
-
-    Copy code
-
-    `npm run dev
-    # or
-    yarn dev`
+    ```console
+    npm run dev
+    ```
+    **or**
+    ```console
+    yarn dev
+    ```
 
 ### Backend Setup
 
 1.  **Navigate to the backend directory**:
 
-    bash
-
-    Copy code
-
-    `cd ../server`
+    ```console
+    cd ../server
+    ```
 
 2.  **Install dependencies**:
 
-    bash
+    ```console
+    npm install
+    ```
+    **or**
+    ```console
+    yarn install
+    ```
 
-    Copy code
+4.  **Set up the database**:
 
-    `npm install
-    # or
-    yarn install`
+    ```console
+    npx prisma migrate dev
+    ```
 
-3.  **Set up the database**:
-
-    bash
-
-    Copy code
-
-    `npx prisma migrate dev`
-
-4.  **Settup environmental variables**:
+5.  **Settup environmental variables**:
 
     Create a .env file on "/server" if needed.
 
     On your .env file look for these variables and change them accordingly:
 
-    bash
+    ```env
+    DATABASE_URL="file:./dev.db"
     
-    `DATABASE_URL="file:./dev.db"`
+    // This is the API host
+    API_BASE_URL = "[your network IP or https://localhost]"
     
-    `API_BASE_URL = "[your network IP or https://localhost]"
-    // This is the API host`
+    PORT = "[a port for the API (ex. 3333)]"
     
-    `PORT = "[a port for the API (ex. 3333)]"` 
+    // This is the Client host
+    CLIENT_BASE_URL = "[your network IP or https://localhost]"
     
-    `CLIENT_BASE_URL = "[your network IP or https://localhost]"
-    // This is the Client host`
-    
-    `CLIENT_PORT = "[a port for the client (ex. 5555)]"` 
+    CLIENT_PORT = "[a port for the client (ex. 5555)]"
+    ```
     
 6.  **Start the server**:
 
-    bash
-
-    Copy code
-
-    `npm run dev
-    # or
-    yarn dev`
+    ```console
+    npm run dev
+    ```
+    **or**
+    ```console
+    yarn dev
+    ```
 
     The backend will be available at `http://[your custom API host]:[your custom API port]`.
 
