@@ -7,6 +7,7 @@ import { Guests } from "./guests";
 import { Activities } from "./activities";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
 import { Button } from "../../components/button";
+import { api } from "../../lib/axios";
 
 export function TripDetailsPage() {
 
@@ -36,9 +37,24 @@ export function TripDetailsPage() {
   }
 
   // Add Link
-  function addLink(event: FormEvent<HTMLFormElement>) {
+  async function addLink(event: FormEvent<HTMLFormElement>, title: string, url: string, tripId: string | undefined) {
     event.preventDefault();
-    return;
+
+    if (!title || !url || !tripId) {
+      return
+    }
+
+    const response = await api.post(`/trips/${tripId}/links/create`, {
+      title: title,
+      url: url,
+    })
+
+    if (response.status !== 200) {
+      window.alert('Connection Error.')
+      return
+    }
+
+    closeNewLinkModal()
   }
 
   return (
