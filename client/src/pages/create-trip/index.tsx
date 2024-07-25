@@ -20,8 +20,9 @@ export function CreateTripPage() {
   const [ownerEmail, setOwnerEmail] = useState('')
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [emailsToInvite, setEmailsToInvite] = useState([
-    'fernandosbcunha@gmail.com',
-    'john@acme.com'
+    'james@acme.com',
+    'jane@doe.com',
+    'john@doe.com',
   ]);
 
 

@@ -86,14 +86,14 @@ export function TripDetailsPage() {
       </div>
 
       {isActivityModalOpen && (
-        <NewActivityModal 
+        <NewActivityModal
           closeActivityModal={closeActivityModal}
           addActivity={addActivity}
-        />      
+        />
       )}
 
       {isNewLinkModalOpen && (
-        <NewLinkModal 
+        <NewLinkModal
           closeNewLinkModal={closeNewLinkModal}
           addLink={addLink}
         />
