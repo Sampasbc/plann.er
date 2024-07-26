@@ -1,66 +1,63 @@
-import { CircleCheck, CircleDashed } from "lucide-react";
+import { Day } from "../../components/day";
+import { Activity } from "../../components/activity";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { api } from "../../lib/axios";
+
+interface DayType {
+  activities: Array<ActivitiesType>
+  date: Date
+}
+
+interface ActivitiesType {
+  id: string
+  title: string
+  is_done: boolean
+  occurs_at: Date
+  // trip_is: string
+}
 
 export function Activities() {
 
+  const { tripId } = useParams()
+  const [days, setDays] = useState<Array<DayType>>()
 
-  const currentDay = 'w-full space-y-3 opacity-100';
-  const notCurrentDay = 'w-full space-y-3 opacity-60';
+  useEffect(() => {
+    api.get(`/trips/${tripId}/activities/get`).then(response => setDays(response.data.activities))
+  }, [tripId])
+
+  // useEffect(() => {
+
+  //   console.log(days && days[26].activities)
+  // }, [days])
 
   return (
     <div className="flex flex-col gap-8">
 
-      {/* Day */}
-      <div className={notCurrentDay}>
+      {days && days.map(day => {
+        const activities = day.activities
+        const hasActivities = activities.length > 0
 
-        {/* day title */}
-        <div className="flex items-baseline gap-2">
-          <span className="text-xl text-zinc-300 font-semibold" >Dia 17</span>
-          <span className="text-xs text-zinc-500 leading-5" >Sábado</span>
-        </div>
-
-        {/* activity */}
-        <div>
-          <span className="text-sm text-zinc-500" >Nenhuma atividade cadastrada nessa data</span>
-        </div>
-
-      </div>
-
-      {/* Day */}
-      <div className={currentDay}>
-
-        {/* day title */}
-        <div className="flex items-baseline gap-2">
-          <span className="text-xl text-zinc-300 font-semibold" >Dia 19</span>
-          <span className="text-xs text-zinc-500 leading-5" >Segunda-feira</span>
-        </div>
-
-        {/* activity */}
-        <div className="space-y-3">
-
-          {/* Task */}
-          <div className="h-10 rounded-xl px-4 flex justify-between items-center gap-3 bg-zinc-900 shadow-shape">
-            <CircleCheck className="size-5 text-lime-300" />
-            <span className="flex-1 text-base leading-5 text-zinc-100">Academia em grupo</span>
-            <span className="text-zinc-400 text-sm leading-5" >08:00h</span>
-          </div>
-
-          {/* Task */}
-          <div className="h-10 rounded-xl px-4 flex justify-between items-center gap-3 bg-zinc-900 shadow-shape">
-            <CircleDashed className="size-5 text-zinc-400" />
-            <span className="flex-1 text-base leading-5 text-zinc-100">Almoço</span>
-            <span className="text-zinc-400 text-sm leading-5" >12:00h</span>
-          </div>
-
-          {/* Task */}
-          <div className="h-10 rounded-xl px-4 flex justify-between items-center gap-3 bg-zinc-900 shadow-shape">
-            <CircleDashed className="size-5 text-zinc-400" />
-            <span className="flex-1 text-base leading-5 text-zinc-100">Jantar</span>
-            <span className="text-zinc-400 text-sm leading-5" >21:00h</span>
-          </div>
-
-        </div>
-
-      </div>
+        return (
+          <Day
+            key={day.date.toString()}
+            date={day.date}
+            hasActivities={hasActivities}
+          >
+            {activities.map(activity => {
+              return (
+                <Activity
+                  key={activity.id}
+                  activityId={activity.id}
+                  title={activity.title}
+                  isDone={activity.is_done}
+                  occursAt={activity.occurs_at}
+                />
+              )
+            })}
+          </Day>
+        )
+      })}
 
     </div>
   )
