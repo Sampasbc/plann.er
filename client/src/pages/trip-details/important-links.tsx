@@ -7,6 +7,7 @@ import { Link } from "../../components/link";
 
 interface ImportantLinksProps {
   openNewLinkModal: () => void
+  reMount: boolean
 }
 
 interface LinkType {
@@ -17,6 +18,7 @@ interface LinkType {
 
 export function ImportantLinks({
   openNewLinkModal,
+  reMount
 }: ImportantLinksProps) {
 
   const { tripId } = useParams()
@@ -24,7 +26,7 @@ export function ImportantLinks({
 
   useEffect(() => {
     api.get(`trips/${tripId}/links/get`).then(response => setLinks(response.data.links))
-  }, [tripId])
+  }, [tripId, reMount])
 
   return (
     <div className="flex flex-col gap-6" >

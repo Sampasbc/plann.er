@@ -17,14 +17,20 @@ interface ActivitiesType {
   // trip_is: string
 }
 
-export function Activities() {
+interface AvtivitiesProps {
+  reMount: boolean
+}
+
+export function Activities({
+  reMount
+}: AvtivitiesProps) {
 
   const { tripId } = useParams()
   const [days, setDays] = useState<Array<DayType>>()
 
   useEffect(() => {
     api.get(`/trips/${tripId}/activities/get`).then(response => setDays(response.data.activities))
-  }, [tripId])
+  }, [tripId, reMount])
 
   // useEffect(() => {
 

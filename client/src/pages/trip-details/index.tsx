@@ -18,6 +18,8 @@ export function TripDetailsPage() {
   const [activityDate, setActivityDate] = useState('')
   const [activityTime, setActivityTime] = useState('')
 
+  const [reMount, setReMount] = useState(false)
+
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
   const [isNewLinkModalOpen, setNewLinkModalOpen] = useState(false);
 
@@ -57,6 +59,7 @@ export function TripDetailsPage() {
       return
     }
 
+    setReMount(!reMount)
     closeActivityModal()
   }
 
@@ -78,6 +81,7 @@ export function TripDetailsPage() {
       return
     }
 
+    setReMount(!reMount)
     closeNewLinkModal()
   }
 
@@ -105,7 +109,9 @@ export function TripDetailsPage() {
               </Button>
             </div>
 
-            <Activities />
+            <Activities
+              reMount={reMount}
+            />
 
           </div>
 
@@ -114,6 +120,7 @@ export function TripDetailsPage() {
 
             <ImportantLinks
               openNewLinkModal={openNewLinkModal}
+              reMount={reMount}
             />
 
             <div className='h-px w-full bg-zinc-800'></div>
