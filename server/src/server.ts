@@ -17,6 +17,7 @@ import { updateParticipant } from "./routes/participants/update-participant";
 import { errorHandler } from "./error-handler";
 import { env } from "./env";
 import { formatRemoveHTTP } from "./lib/format-url";
+import { updateActivity } from "./routes/activities/update-activity";
 
 const app = fastify()
 
@@ -69,8 +70,12 @@ app.register(createActivity)
 // GET '/trips/:tripId/activities/get'
 app.register(getActivity)
 
+// POST '/trips/:tripId/activities/:activityId/update'
+app.register(updateActivity)
+
 // POST '/trips/:tripId/links/create'
 app.register(createLink)
+
 
 // POST '/trips/:tripId/links/get'
 app.register(getLink)
