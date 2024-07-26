@@ -26,10 +26,6 @@ export function ImportantLinks({
     api.get(`trips/${tripId}/links/get`).then(response => setLinks(response.data.links))
   }, [tripId])
 
-  useEffect(() => {
-    console.log(links)
-  }, [links])
-
   return (
     <div className="flex flex-col gap-6" >
 

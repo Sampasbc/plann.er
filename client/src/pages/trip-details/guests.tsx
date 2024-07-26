@@ -1,8 +1,26 @@
-import { CircleCheck, CircleDashed, UserCog } from "lucide-react";
+import { UserCog } from "lucide-react";
 import { Button } from "../../components/button";
+import { Guest } from "../../components/guest";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { api } from "../../lib/axios";
+
+interface ParticipantType {
+  id: string
+  is_confirmed: boolean
+  name: string
+  email: string
+}
 
 export function Guests() {
-  
+
+  const { tripId } = useParams()
+  const [participants, setParticipants] = useState<Array<ParticipantType>>()
+
+  useEffect(() => {
+    api.get(`/trips/${tripId}/participants/get`).then(response => setParticipants(response.data.participants))
+  }, [tripId])
+
   return (
     <div className="flex flex-col gap-6" >
 
@@ -13,60 +31,17 @@ export function Guests() {
       {/* List */}
       <div className="space-y-5">
 
+        {participants && participants.map(participant => {
+          return (
+            <Guest
+              key={participant.id}
+              isConfirmed={participant.is_confirmed}
+              name={participant.name}
+              email={participant.email}
+            />
+          )
+        })}
         {/* single guest */}
-        <div className="flex items-center justify-between" >
-          <div className="flex flex-1 flex-col gap-[6px] max-w-60">
-            <span className="text-base text-zinc-100" >Jessica White</span>
-            <span className="text-sm text-zinc-400 truncate" >jessica.white@gmail.com</span>
-          </div>
-          <button>
-            <CircleDashed className="text-zinc-400 size-5" />
-          </button>
-        </div>
-
-        {/* single guest */}
-        <div className="flex items-center justify-between" >
-          <div className="flex flex-1 flex-col gap-[6px] max-w-60">
-            <span className="text-base text-zinc-100" >Wilfred Dickens</span>
-            <span className="text-sm text-zinc-400 truncate" >dickens.wilfred@gmail.com</span>
-          </div>
-          <button>
-            <CircleCheck className="size-5 text-lime-300" />
-          </button>
-        </div>
-
-        {/* single guest */}
-        <div className="flex items-center justify-between" >
-          <div className="flex flex-1 flex-col gap-[6px] max-w-60">
-            <span className="text-base text-zinc-100" >Wilfred Dickens</span>
-            <span className="text-sm text-zinc-400 truncate" >dickens.wilfred@gmail.com</span>
-          </div>
-          <button>
-            <CircleCheck className="size-5 text-lime-300" />
-          </button>
-        </div>
-
-        {/* single guest */}
-        <div className="flex items-center justify-between" >
-          <div className="flex flex-1 flex-col gap-[6px] max-w-60">
-            <span className="text-base text-zinc-100" >Wilfred Dickens</span>
-            <span className="text-sm text-zinc-400 truncate" >dickens.wilfred@gmail.com</span>
-          </div>
-          <button>
-            <CircleCheck className="size-5 text-lime-300" />
-          </button>
-        </div>
-
-        {/* single guest */}
-        <div className="flex items-center justify-between" >
-          <div className="flex flex-1 flex-col gap-[6px] max-w-60">
-            <span className="text-base text-zinc-100" >Wilfred Dickens</span>
-            <span className="text-sm text-zinc-400 truncate" >dickens.wilfred@gmail.com</span>
-          </div>
-          <button>
-            <CircleCheck className="size-5 text-lime-300" />
-          </button>
-        </div>
 
       </div>
 
