@@ -31,10 +31,11 @@ export function Guests() {
       {/* List */}
       <div className="space-y-5">
 
-        {participants && participants.map(participant => {
+        {participants && participants.map((participant, index) => {
           return (
             <Guest
               key={participant.id}
+              index={index}
               isConfirmed={participant.is_confirmed}
               name={participant.name}
               email={participant.email}

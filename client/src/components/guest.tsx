@@ -1,12 +1,14 @@
 import { CircleCheck, CircleDashed } from "lucide-react"
 
 interface GuestProps {
+  index: number
   isConfirmed: boolean
   name: string
   email: string
 }
 
 export function Guest({
+  index,
   isConfirmed,
   name,
   email
@@ -20,7 +22,7 @@ export function Guest({
       {/* single guest */}
       <div className="flex items-center justify-between" >
         <div className="flex flex-1 flex-col gap-[6px] max-w-60">
-          <span className="text-base text-zinc-100" >{name}</span>
+          <span className="text-base text-zinc-100" >{name ?? `Guest ${index}`}</span>
           <span className="text-sm text-zinc-400 truncate" >{email}</span>
         </div>
         {isConfirmed ? (
