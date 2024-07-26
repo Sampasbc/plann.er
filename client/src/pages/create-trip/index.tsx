@@ -65,7 +65,7 @@ export function CreateTripPage() {
 
     // Duplication validation
     if (emailsToInvite.includes(email)) {
-      window.alert(`O email '${email}' já está adicionado à lista.`);
+      window.alert(`The email '${email}' is already on the list.`);
       return;
     }
 
@@ -133,7 +133,7 @@ export function CreateTripPage() {
         {/* Title */}
         <div className='flex flex-col items-center gap-3'>
           <img src="/logo.svg" alt="plann.er" />
-          <p className="text-zinc-300 text-lg">Convide seus amigos e planeje sua próxima viagem!</p>
+          <p className="text-zinc-300 text-lg">Invite your friends and <span className='text-zinc-200 font-semibold'>plann</span> your next trip!</p>
         </div>
 
         {/* Input Bars */}
@@ -162,8 +162,8 @@ export function CreateTripPage() {
         </div>
 
         <p className="text-sm text-zinc-500">
-          Ao planejar sua viagem pela plann.er você automaticamente concorda <br />
-          com nossos <a className="text-zinc-300 underline" href="#">termos de uso</a> e <a className="text-zinc-300 underline" href="#">políticas de privacidade</a>.
+          When planning your trip through plann.er you automatically agree <br />
+          with our <a className="text-zinc-300 underline" href="#">terms and conditions</a> and <a className="text-zinc-300 underline" href="#">privacy policy</a>.
         </p>
 
       </div>

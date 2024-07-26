@@ -42,7 +42,7 @@ export function Day({
         {/* activity */}
         {!hasActivities && (
           <div>
-            <span className="text-sm text-zinc-500" >Nenhuma atividade cadastrada nessa data</span>
+            <span className="text-sm text-zinc-500" >No activity registered on this date.</span>
           </div>
         )}
 

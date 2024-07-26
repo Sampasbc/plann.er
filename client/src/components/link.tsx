@@ -15,7 +15,7 @@ export function Link({
       <div className="flex flex-1 flex-col gap-[6px] max-w-60">
         <span className="text-base text-zinc-100" >{title}</span>
         <a
-          href="https://www.airbnb.com.br/rooms/10470012938129123841902839"
+          href={url}
           className="text-xs text-zinc-400 truncate hover:text-zinc-300" >
           {url}
         </a>

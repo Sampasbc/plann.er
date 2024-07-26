@@ -28,14 +28,14 @@ export function NewLinkModal({
         {/* Title */}
         <div className='space-y-2'>
           <div className='flex items-center justify-between'>
-            <h2 className='text-lg font-semibold'>Cadastrar link</h2>
+            <h2 className='text-lg font-semibold'>Register link</h2>
             <button>
               <X onClick={closeNewLinkModal} className='size-5 text-zinc-400' />
             </button>
           </div>
 
           <p className='text-sm text-zinc-400'>
-            Todos os convidados podem visualizar os links importantes.
+            All guests can view the important links.
           </p>
         </div>
 
@@ -49,7 +49,7 @@ export function NewLinkModal({
               <input
                 type="text"
                 name="link"
-                placeholder="Título do link"
+                placeholder="Link Title"
                 className='bg-transparent text-base placeholder-zinc-400 outline-none flex-1'
                 onChange={event => setLinkTitle(event.target.value)}
               />
@@ -71,7 +71,7 @@ export function NewLinkModal({
           </div>
 
           <Button variant="primary" size="medium" width="full">
-            Salvar link
+            Save link
           </Button>
         </form>
 

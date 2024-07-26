@@ -32,7 +32,7 @@ export function ImportantLinks({
     <div className="flex flex-col gap-6" >
 
       <span className="text-zinc-50 text-xl font-semibold" >
-        Links importantes
+        Important links
       </span>
 
       {/* List */}
@@ -57,7 +57,7 @@ export function ImportantLinks({
 
       <Button onClick={openNewLinkModal} variant='secondary' size="medium">
         <Plus className="size-5" />
-        Cadastrar novo link
+        Register new link
       </Button>
 
     </div>

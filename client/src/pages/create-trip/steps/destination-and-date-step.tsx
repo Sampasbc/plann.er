@@ -42,15 +42,16 @@ export function DestinationAndDateStep({
   const displayDate =
     dateRange &&
       dateRange.from ?
-      `${format(dateRange.from, 'dd/MMM')}
-      ${dateRange.to ? `até ${format(dateRange.to, 'dd/MMM')}` : ''}`
-      : 'Quando?';
+      `${format(dateRange.from, 'MMM dd')}
+      ${dateRange.to ? `to ${format(dateRange.to, 'MMM dd')}` : ''}`
+      : 'When ?';
 
   return (
     <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-5">
       <div className='flex items-center gap-2 flex-1'>
         <MapPin className="size-5 text-zinc-400" />
-        <input onChange={event => setDestination(event.target.value)} required disabled={isGuestInputOpen} type="text" placeholder="Para onde você vai?"
+        <input onChange={event => setDestination(event.target.value)} required disabled={isGuestInputOpen} type="text"
+          placeholder="Where are you traveling to ?"
           className={isGuestInputOpen ? disabledInput + ' flex-1' : enabledInput + ' flex-1'} />
       </div>
 
@@ -67,12 +68,12 @@ export function DestinationAndDateStep({
       {/* Button State */}
       {isGuestInputOpen ? (
         <Button onClick={closeGuestInput} type="button" variant="secondary" size="small">
-          Alterar local/data
+          Change location/date
           <Settings2 className="size-5 text-zinc-200" />
         </Button>
       ) : (
         <Button onClick={openGuestInput} type="submit" variant="primary" size="small">
-          Continuar
+          Continue
           <ArrowRight className="size-5 text-lime-950" />
         </Button>
       )}
@@ -86,7 +87,7 @@ export function DestinationAndDateStep({
             {/* Title */}
             <div className='space-y-2'>
               <div className='flex items-center justify-between gap-2'>
-                <h2 className='text-lg font-semibold'>Selecione a data</h2>
+                <h2 className='text-lg font-semibold'>Select date</h2>
                 <button>
                   <X onClick={closeDatePicker} className='size-5 text-zinc-400' />
                 </button>

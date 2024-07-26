@@ -25,7 +25,7 @@ export function Guests() {
     <div className="flex flex-col gap-6" >
 
       <span className="text-zinc-50 text-xl font-semibold" >
-        Convidados
+        Guests
       </span>
 
       {/* List */}
@@ -48,7 +48,7 @@ export function Guests() {
 
       <Button variant='secondary' size="medium"  >
         <UserCog className="size-5 text-zinc-200" />
-        Gerenciar convidados
+        Manage guests
       </Button>
 
     </div>

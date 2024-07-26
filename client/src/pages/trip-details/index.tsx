@@ -102,10 +102,10 @@ export function TripDetailsPage() {
 
             {/* Title */}
             <div className="flex items-center justify-between">
-              <h2 className="text-3xl text-zinc-50 font-semibold" >Atividades</h2>
+              <h2 className="text-3xl text-zinc-50 font-semibold" >Activities</h2>
               <Button variant='primary' onClick={openActivityModal}>
                 <Plus className="size-5 text-lime-950" />
-                Cadastrar atividade
+                Register activity
               </Button>
             </div>
 

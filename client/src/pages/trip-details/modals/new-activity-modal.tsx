@@ -27,14 +27,14 @@ export function NewActivityModal({
         {/* Title */}
         <div className='space-y-2'>
           <div className='flex items-center justify-between'>
-            <h2 className='text-lg font-semibold'>Cadastrar atividade</h2>
+            <h2 className='text-lg font-semibold'>Register activity</h2>
             <button>
               <X onClick={closeActivityModal} className='size-5 text-zinc-400' />
             </button>
           </div>
 
           <p className='text-sm text-zinc-400'>
-            Todos os convidados podem visualizar as atividades.
+            All guests can view the activities.
           </p>
         </div>
 
@@ -48,7 +48,7 @@ export function NewActivityModal({
               <input
                 type="text"
                 name="activity_name"
-                placeholder="Qual a atividade?"
+                placeholder="What is the activity?"
                 className='bg-transparent text-base placeholder-zinc-400 outline-none flex-1'
                 onChange={event => setActivityTitle(event.target.value)}
               />
@@ -61,7 +61,7 @@ export function NewActivityModal({
                 <input
                   type="date"
                   name="activity_date"
-                  placeholder="Selecionar data"
+                  placeholder="Select date"
                   className='bg-transparent text-base placeholder-zinc-400 outline-none flex-1'
                   onChange={event => setActivityDate(event.target.value)}
                 />
@@ -73,7 +73,7 @@ export function NewActivityModal({
                 <input
                   type="time"
                   name="activity_time"
-                  placeholder="Horário"
+                  placeholder="Time"
                   className='bg-transparent text-base placeholder-zinc-400 outline-none flex-1'
                   onChange={event => setActivityTime(event.target.value)}
                 />
@@ -84,7 +84,7 @@ export function NewActivityModal({
           </div>
 
           <Button type='submit' variant="primary" size="medium" width='full'>
-            Salvar atividade
+            Save Activity
           </Button>
         </form>
 

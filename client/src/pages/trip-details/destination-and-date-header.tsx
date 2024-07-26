@@ -50,7 +50,7 @@ export function DestinationAndDateHeader() {
 
         {/* Button */}
         <Button variant='secondary' >
-          Alterar local/data
+          Change location/date
           <Settings2 className="size-5" />
         </Button>
 

@@ -28,7 +28,7 @@ export function ConfirmTripModal({
   const displayDate =
     dateRange &&
       dateRange.from ?
-      `${format(dateRange.from, 'dd/MMM')} ${dateRange.to ? `to ${format(dateRange.to, 'dd/MMM')}` : ''}` : '';
+      `${format(dateRange.from, 'MMM dd')} ${dateRange.to ? `to ${format(dateRange.to, 'MMM dd')}` : ''}` : '';
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -38,13 +38,13 @@ export function ConfirmTripModal({
         {/* Title */}
         <div className='space-y-2'>
           <div className='flex items-center justify-between'>
-            <h2 className='text-lg font-semibold'>Confirmar criação da viagem</h2>
+            <h2 className='text-lg font-semibold'>Confirm trip creation</h2>
             <button>
               <X onClick={closeConfirmTripModal} className='size-5 text-zinc-400' />
             </button>
           </div>
 
-          <p className='text-sm text-zinc-400'>Para concluir a criação da viagem para <span className='font-semibold text-zinc-100' >{destination}</span> nas datas de <span className='font-semibold text-zinc-100'>{displayDate}</span> preencha seus dados abaixo:</p>
+          <p className='text-sm text-zinc-400'>To complete creating the trip to <span className='font-semibold text-zinc-100' >{destination}</span> on the dates of <span className='font-semibold text-zinc-100'>{displayDate}</span> fill in your details below:</p>
         </div>
 
         {/* Form */}
@@ -58,7 +58,7 @@ export function ConfirmTripModal({
                 onChange={event => setOwnerName(event.target.value)}
                 type="text"
                 name="name"
-                placeholder="Seu nome completo"
+                placeholder="Your full name"
                 className={enabledInput + ' flex-1'}
               />
             </div>
@@ -70,7 +70,7 @@ export function ConfirmTripModal({
                 onChange={event => setOwnerEmail(event.target.value)}
                 type="email"
                 name="email"
-                placeholder="Seu e-mail pessoal"
+                placeholder="Your personal email"
                 className={enabledInput + ' flex-1'}
               />
             </div>
@@ -78,7 +78,7 @@ export function ConfirmTripModal({
           </div>
 
           <Button type="submit" variant="primary" size="medium" width="full">
-            Confirmar criação da viagem
+            Confirm trip creation
             <Plus className="size-5" />
           </Button>
         </form>
