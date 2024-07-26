@@ -5,13 +5,19 @@ import { Button } from "../../../components/button";
 interface NewActivityProps {
   closeActivityModal: () => void
   addActivity: (event: FormEvent<HTMLFormElement>) => void
+  setActivityTitle: (title: string) => void
+  setActivityDate: (date: string) => void
+  setActivityTime: (time: string) => void
 }
 
 
 export function NewActivityModal({
   closeActivityModal,
   addActivity,
- }: NewActivityProps) {
+  setActivityTitle,
+  setActivityDate,
+  setActivityTime
+}: NewActivityProps) {
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -23,7 +29,7 @@ export function NewActivityModal({
           <div className='flex items-center justify-between'>
             <h2 className='text-lg font-semibold'>Cadastrar atividade</h2>
             <button>
-              <X onClick={closeActivityModal} className='size-5 text-zinc-400'/>
+              <X onClick={closeActivityModal} className='size-5 text-zinc-400' />
             </button>
           </div>
 
@@ -33,40 +39,43 @@ export function NewActivityModal({
         </div>
 
         {/* Form */}
-        <form onSubmit={addActivity} className='space-y-3'>
+        <form onSubmit={event => addActivity(event)} className='space-y-3'>
 
           <div className='space-y-2'>
             {/* Input Name*/}
             <div className='h-14 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
-              <Tag className='text-zinc-400 size-5'/>
-              <input 
-                type="text" 
-                name="activity_name" 
-                placeholder="Qual a atividade?" 
+              <Tag className='text-zinc-400 size-5' />
+              <input
+                type="text"
+                name="activity_name"
+                placeholder="Qual a atividade?"
                 className='bg-transparent text-base placeholder-zinc-400 outline-none flex-1'
+                onChange={event => setActivityTitle(event.target.value)}
               />
             </div>
 
             <div className="flex gap-2">
               {/* Input Date*/}
               <div className='box-border h-14 w-[344px] px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2 '>
-                <Calendar className='text-zinc-400 size-5'/>
-                <input 
-                  type="date" 
-                  name="activity_date" 
-                  placeholder="Selecionar data" 
+                <Calendar className='text-zinc-400 size-5' />
+                <input
+                  type="date"
+                  name="activity_date"
+                  placeholder="Selecionar data"
                   className='bg-transparent text-base placeholder-zinc-400 outline-none flex-1'
+                  onChange={event => setActivityDate(event.target.value)}
                 />
               </div>
 
               {/* Input Time*/}
               <div className='h-14 w-[140px] px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2'>
-                <Clock className='text-zinc-400 size-5'/>
-                <input 
-                  type="time" 
-                  name="activity_time" 
-                  placeholder="Horário" 
+                <Clock className='text-zinc-400 size-5' />
+                <input
+                  type="time"
+                  name="activity_time"
+                  placeholder="Horário"
                   className='bg-transparent text-base placeholder-zinc-400 outline-none flex-1'
+                  onChange={event => setActivityTime(event.target.value)}
                 />
               </div>
             </div>

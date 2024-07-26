@@ -8,8 +8,15 @@ import { Activities } from "./activities";
 import { DestinationAndDateHeader } from "./destination-and-date-header";
 import { Button } from "../../components/button";
 import { api } from "../../lib/axios";
+import { useParams } from "react-router-dom";
 
 export function TripDetailsPage() {
+
+  const { tripId } = useParams()
+
+  const [activityTitle, setActivityTitle] = useState('')
+  const [activityDate, setActivityDate] = useState('')
+  const [activityTime, setActivityTime] = useState('')
 
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
   const [isNewLinkModalOpen, setNewLinkModalOpen] = useState(false);
@@ -31,9 +38,26 @@ export function TripDetailsPage() {
   }
 
   // Add Activity
-  function addActivity(event: FormEvent<HTMLFormElement>) {
+  async function addActivity(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    return;
+
+    if (!activityTitle || !activityDate || !activityTime || !tripId) {
+      return
+    }
+
+    const occursAt = `${activityDate} ${activityTime}`
+
+    const response = await api.post(`/trips/${tripId}/activities/create`, {
+      title: activityTitle,
+      occurs_at: occursAt
+    })
+
+    if (response.status !== 200) {
+      window.alert('Connection Error.')
+      return
+    }
+
+    closeActivityModal()
   }
 
   // Add Link
@@ -105,6 +129,9 @@ export function TripDetailsPage() {
         <NewActivityModal
           closeActivityModal={closeActivityModal}
           addActivity={addActivity}
+          setActivityTitle={setActivityTitle}
+          setActivityDate={setActivityDate}
+          setActivityTime={setActivityTime}
         />
       )}
 
