@@ -19,6 +19,7 @@ import { env } from "./env";
 import { formatRemoveHTTP } from "./lib/format-url";
 import { updateActivity } from "./routes/activities/update-activity";
 import { deleteLink } from "./routes/links/remove-link";
+import { deleteActivity } from "./routes/activities/delete-activity";
 
 const app = fastify()
 
@@ -73,6 +74,9 @@ app.register(getActivity)
 
 // PUT '/trips/:tripId/activities/:activityId/update'
 app.register(updateActivity)
+
+// DELETE '/activities/:activityId/delete'
+app.register(deleteActivity)
 
 // GET '/trips/:tripId/links/get'
 app.register(getLink)
