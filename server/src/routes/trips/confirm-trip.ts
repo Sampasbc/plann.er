@@ -63,7 +63,7 @@ export async function confirmTrip(app: FastifyInstance) {
           },
           to: participant.email,
 
-          subject: `Conrifm your presence on the trip to ${trip.destination}`,
+          subject: `Confirm your presence on the trip to ${trip.destination}`,
 
           html: `
             <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6;">

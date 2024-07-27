@@ -74,7 +74,7 @@ export async function createTrip(app: FastifyInstance) {
         name: owner_name,
         address: owner_email,
       },
-      subject: `Conrifm Trip to ${destination}`,
+      subject: `Confirm Trip to ${destination}`,
       html: `
         <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6;">
           <p>You requested the creation of a trip to <strong>${destination}</strong> on the dates of <strong>${dayjs(starts_at).format('MMM D YYYY')}</strong> to <strong>${dayjs(ends_at).format('MMM D YYYY')}</strong>.</p>
@@ -95,7 +95,7 @@ export async function createTrip(app: FastifyInstance) {
     console.log(nodemailer.getTestMessageUrl(message))
 
     return {
-      message: 'Registro realizado com sucesso!',
+      message: 'Trip registered successfully!',
       tripId: trip.id
     }
 
