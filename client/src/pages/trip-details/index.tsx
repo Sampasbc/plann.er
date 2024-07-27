@@ -63,6 +63,20 @@ export function TripDetailsPage() {
     closeActivityModal()
   }
 
+  // Remove Activity
+  const removeActivity = async (id: string) => {
+
+    const response = await api.delete(`/activities/${id}/delete`)
+
+    if (response.status !== 204) {
+      window.alert('Connection Error.')
+      return
+    }
+
+    setReMount(!reMount)
+
+  }
+
   // Add Link
   async function addLink(event: FormEvent<HTMLFormElement>, title: string, url: string, tripId: string | undefined) {
     event.preventDefault();
@@ -89,8 +103,6 @@ export function TripDetailsPage() {
   async function removeLink(linkId: string) {
 
     const response = await api.delete(`/links/${linkId}/delete`)
-
-    console.log(response)
 
     if (response.status !== 204) {
       window.alert('Connection Error.')
@@ -126,6 +138,7 @@ export function TripDetailsPage() {
 
             <Activities
               reMount={reMount}
+              removeActivity={removeActivity}
             />
 
           </div>

@@ -19,10 +19,12 @@ interface ActivitiesType {
 
 interface AvtivitiesProps {
   reMount: boolean
+  removeActivity: (id: string) => void
 }
 
 export function Activities({
-  reMount
+  reMount,
+  removeActivity
 }: AvtivitiesProps) {
 
   const { tripId } = useParams()
@@ -58,6 +60,7 @@ export function Activities({
                   title={activity.title}
                   isDone={activity.is_done}
                   occursAt={activity.occurs_at}
+                  removeActivity={removeActivity}
                 />
               )
             })}
