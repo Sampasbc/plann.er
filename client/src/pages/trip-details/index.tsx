@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import { NewActivityModal } from "./modals/new-activity-modal";
 import { FormEvent, useState } from "react";
-import { NewLinkModal } from "./modals/new-link-modal copy";
+import { NewLinkModal } from "./modals/new-link-modal";
 import { ImportantLinks } from "./important-links";
 import { Guests } from "./guests";
 import { Activities } from "./activities";
@@ -85,6 +85,21 @@ export function TripDetailsPage() {
     closeNewLinkModal()
   }
 
+  // Remove Link
+  async function removeLink(linkId: string) {
+
+    const response = await api.delete(`/links/${linkId}/delete`)
+
+    console.log(response)
+
+    if (response.status !== 204) {
+      window.alert('Connection Error.')
+      return
+    }
+
+    setReMount(!reMount)
+  }
+
   return (
     <div className="h-screen py-10">
 
@@ -120,6 +135,7 @@ export function TripDetailsPage() {
 
             <ImportantLinks
               openNewLinkModal={openNewLinkModal}
+              removeLink={removeLink}
               reMount={reMount}
             />
 

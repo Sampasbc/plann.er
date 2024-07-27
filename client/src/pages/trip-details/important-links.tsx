@@ -7,6 +7,7 @@ import { Link } from "../../components/link";
 
 interface ImportantLinksProps {
   openNewLinkModal: () => void
+  removeLink: (linkId: string) => void
   reMount: boolean
 }
 
@@ -18,6 +19,7 @@ interface LinkType {
 
 export function ImportantLinks({
   openNewLinkModal,
+  removeLink,
   reMount
 }: ImportantLinksProps) {
 
@@ -43,8 +45,10 @@ export function ImportantLinks({
             return (
               <Link
                 key={link.id}
+                id={link.id}
                 title={link.title}
                 url={link.url}
+                removeLink={removeLink}
               />
             )
           })
