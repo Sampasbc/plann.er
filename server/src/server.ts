@@ -18,6 +18,7 @@ import { errorHandler } from "./error-handler";
 import { env } from "./env";
 import { formatRemoveHTTP } from "./lib/format-url";
 import { updateActivity } from "./routes/activities/update-activity";
+import { deleteLink } from "./routes/links/remove-link";
 
 const app = fastify()
 
@@ -58,10 +59,10 @@ app.register(getParticipants)
 // GET '/participants/:participantId'
 app.register(getParticipant)
 
-// GET '/participants/:participantId/update'
+// PUT '/participants/:participantId/update'
 app.register(updateParticipant)
 
-// GET '/trips/:tripId/participants/invite'
+// POST '/trips/:tripId/participants/invite'
 app.register(inviteParticipant)
 
 // POST '/trips/:tripId/activities/create'
@@ -70,15 +71,17 @@ app.register(createActivity)
 // GET '/trips/:tripId/activities/get'
 app.register(getActivity)
 
-// POST '/trips/:tripId/activities/:activityId/update'
+// PUT '/trips/:tripId/activities/:activityId/update'
 app.register(updateActivity)
+
+// GET '/trips/:tripId/links/get'
+app.register(getLink)
 
 // POST '/trips/:tripId/links/create'
 app.register(createLink)
 
-
-// POST '/trips/:tripId/links/get'
-app.register(getLink)
+// DELETE '/links/:linkId/delete''
+app.register(deleteLink)
 
 
 app.listen({ port: 3333, host: formatRemoveHTTP(env.API_BASE_URL, 'http') }).then(() => {
