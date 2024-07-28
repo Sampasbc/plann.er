@@ -20,6 +20,7 @@ import { formatRemoveHTTP } from "./lib/format-url";
 import { updateActivity } from "./routes/activities/update-activity";
 import { deleteLink } from "./routes/links/remove-link";
 import { deleteActivity } from "./routes/activities/delete-activity";
+import { serverWake } from "./routes/misc/server-wake";
 
 const app = fastify()
 
@@ -85,8 +86,11 @@ app.register(getLink)
 // POST '/trips/:tripId/links/create'
 app.register(createLink)
 
-// DELETE '/links/:linkId/delete''
+// DELETE '/links/:linkId/delete'
 app.register(deleteLink)
+
+// GET '/server/wake'
+app.register(serverWake)
 
 
 app.listen({ port: 3333, host: formatRemoveHTTP(env.API_BASE_URL, env.API_BASE_URL_PROTOCOL) }).then(() => {
