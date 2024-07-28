@@ -146,7 +146,7 @@ Usage
 
 1.  **Open the application**:
 
-    Navigate to `http://[Client host]:[Client port]` in your browser to access the Plann.er app.
+    Navigate to `http://[your custom Client host]:[your custom Client port]` in your browser to access the Plann.er app.
 
 2.  **Create a Trip**:
 
