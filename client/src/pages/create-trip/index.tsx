@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InviteGuestModal } from './invite-guest-modal';
 import { ConfirmTripModal } from './confirm-trip-modal';
@@ -25,6 +25,15 @@ export function CreateTripPage() {
     'john@doe.com',
   ]);
 
+  useEffect(() => {
+
+    async function serverWake() {
+      const response = await api.get('/server/wake').then(response => response.data)
+      console.log(response)
+    }
+
+    serverWake()
+  }, [])
 
   function openGuestInput() {
     setIsGuestInputOpen(true);
