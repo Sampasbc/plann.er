@@ -89,6 +89,6 @@ app.register(createLink)
 app.register(deleteLink)
 
 
-app.listen({ port: 3333, host: formatRemoveHTTP(env.API_BASE_URL, 'http') }).then(() => {
+app.listen({ port: 3333, host: formatRemoveHTTP(env.API_BASE_URL, env.API_BASE_URL_PROTOCOL) }).then(() => {
   console.log(`Server running!\nAccess on ${env.API_BASE_URL}:${env.PORT}`)
 })
