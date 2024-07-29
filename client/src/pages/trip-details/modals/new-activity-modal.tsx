@@ -85,7 +85,7 @@ export function NewActivityModal({
 
           </div>
 
-          <Button type='submit' variant="primary" size="medium" width='full'>
+          <Button disabled={isAddActivityLoading} type='submit' variant="primary" size="medium" width='full'>
             Save Activity
             {isAddActivityLoading && (
               <LoaderCircle className="size-5 loading" />
