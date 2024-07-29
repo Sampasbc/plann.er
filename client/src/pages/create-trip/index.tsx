@@ -11,9 +11,12 @@ export function CreateTripPage() {
 
   const navigate = useNavigate()
 
-  const [isGuestInputOpen, setIsGuestInputOpen] = useState(false);
-  const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isGuestInputOpen, setIsGuestInputOpen] = useState(false)
+  const [isGuestModalOpen, setIsGuestModalOpen] = useState(false)
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
+
+  const [isConfirmTripLoading, setISConfirmTripLoading] = useState(false
+  )
 
   const [destination, setDestination] = useState('')
   const [ownerName, setOwnerName] = useState('')
@@ -105,11 +108,17 @@ export function CreateTripPage() {
       !ownerName ||
       !ownerEmail ||
       !emailsToInvite
-    ) return;
+    ) {
+
+      window.alert('All the fields must be filled to create a trip.')
+      return
+    }
 
     if (emailsToInvite.length === 0) {
       return
     }
+
+    setISConfirmTripLoading(true)
 
     const response = await api.post('/trips', {
       destination: destination,
@@ -122,11 +131,13 @@ export function CreateTripPage() {
 
     if (response.status !== 200) {
       window.alert('Connection Error!')
+      setISConfirmTripLoading(false)
       return
     }
 
     const { tripId } = response.data
 
+    setISConfirmTripLoading(false)
     navigate(`/trips/${tripId}`);
   }
 
@@ -198,6 +209,7 @@ export function CreateTripPage() {
           setOwnerName={setOwnerName}
           destination={destination}
           dateRange={dateRange}
+          isConfirmTripLoading={isConfirmTripLoading}
         />
       )}
 

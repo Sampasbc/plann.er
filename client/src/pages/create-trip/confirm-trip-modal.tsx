@@ -1,4 +1,4 @@
-import { Mail, Plus, User, X } from "lucide-react";
+import { LoaderCircle, Mail, Plus, User, X } from "lucide-react";
 import { FormEvent } from "react";
 import { Button } from "../../components/button";
 import { DateRange } from "react-day-picker";
@@ -12,8 +12,8 @@ interface ConfirmTripModalProps {
   createTrip: (event: FormEvent<HTMLFormElement>) => void
   setOwnerName: (name: string) => void
   setOwnerEmail: (email: string) => void
+  isConfirmTripLoading: boolean
 }
-
 
 export function ConfirmTripModal({
   closeConfirmTripModal,
@@ -22,7 +22,8 @@ export function ConfirmTripModal({
   setOwnerEmail,
   setOwnerName,
   destination,
-  dateRange
+  dateRange,
+  isConfirmTripLoading
 }: ConfirmTripModalProps) {
 
   const displayDate =
@@ -77,9 +78,13 @@ export function ConfirmTripModal({
 
           </div>
 
-          <Button type="submit" variant="primary" size="medium" width="full">
+          <Button disabled={isConfirmTripLoading} type="submit" variant="primary" size="medium" width="full">
             Confirm trip creation
-            <Plus className="size-5" />
+            {!isConfirmTripLoading ? (
+              <Plus className="size-5" />
+            ) : (
+              <LoaderCircle className="size-5 loading" />
+            )}
           </Button>
         </form>
 

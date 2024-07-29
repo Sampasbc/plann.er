@@ -9,3 +9,18 @@
 input {
   color-scheme: dark;
 }
+
+@keyframes spin {
+
+  0% {
+    transform: rotate(1deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  animation: spin 1s linear infinite
+}
