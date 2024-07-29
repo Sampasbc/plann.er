@@ -15,8 +15,7 @@ export function CreateTripPage() {
   const [isGuestModalOpen, setIsGuestModalOpen] = useState(false)
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
 
-  const [isConfirmTripLoading, setISConfirmTripLoading] = useState(false
-  )
+  const [isConfirmTripLoading, setIsConfirmTripLoading] = useState(false)
 
   const [destination, setDestination] = useState('')
   const [ownerName, setOwnerName] = useState('')
@@ -118,7 +117,7 @@ export function CreateTripPage() {
       return
     }
 
-    setISConfirmTripLoading(true)
+    setIsConfirmTripLoading(true)
 
     const response = await api.post('/trips', {
       destination: destination,
@@ -131,13 +130,13 @@ export function CreateTripPage() {
 
     if (response.status !== 200) {
       window.alert('Connection Error!')
-      setISConfirmTripLoading(false)
+      setIsConfirmTripLoading(false)
       return
     }
 
     const { tripId } = response.data
 
-    setISConfirmTripLoading(false)
+    setIsConfirmTripLoading(false)
     navigate(`/trips/${tripId}`);
   }
 

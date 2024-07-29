@@ -1,8 +1,9 @@
-import { Calendar, Clock, Tag, X } from "lucide-react";
+import { Calendar, Clock, LoaderCircle, Tag, X } from "lucide-react";
 import { FormEvent } from "react";
 import { Button } from "../../../components/button";
 
 interface NewActivityProps {
+  isAddActivityLoading: boolean
   closeActivityModal: () => void
   addActivity: (event: FormEvent<HTMLFormElement>) => void
   setActivityTitle: (title: string) => void
@@ -12,6 +13,7 @@ interface NewActivityProps {
 
 
 export function NewActivityModal({
+  isAddActivityLoading,
   closeActivityModal,
   addActivity,
   setActivityTitle,
@@ -85,6 +87,9 @@ export function NewActivityModal({
 
           <Button type='submit' variant="primary" size="medium" width='full'>
             Save Activity
+            {isAddActivityLoading && (
+              <LoaderCircle className="size-5 loading" />
+            )}
           </Button>
         </form>
 

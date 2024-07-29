@@ -23,6 +23,10 @@ export function TripDetailsPage() {
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
   const [isNewLinkModalOpen, setNewLinkModalOpen] = useState(false);
 
+  const [isAddActivityLoading, setIsAddActivityLoading] = useState(false)
+  // const [isAddLinkLoading, setIsAddLinkLoading] = useState(false)
+
+
   function closeActivityModal() {
     setIsActivityModalOpen(false);
   }
@@ -47,6 +51,8 @@ export function TripDetailsPage() {
       return
     }
 
+    setIsAddActivityLoading(true)
+
     const occursAt = `${activityDate} ${activityTime}`
 
     const response = await api.post(`/trips/${tripId}/activities/create`, {
@@ -56,11 +62,13 @@ export function TripDetailsPage() {
 
     if (response.status !== 200) {
       window.alert('Connection Error.')
+      setIsAddActivityLoading(false)
       return
     }
 
     setReMount(!reMount)
     closeActivityModal()
+    setIsAddActivityLoading(false)
   }
 
   // Remove Activity
@@ -139,6 +147,7 @@ export function TripDetailsPage() {
             <Activities
               reMount={reMount}
               removeActivity={removeActivity}
+              isAddActivityLoading={isAddActivityLoading}
             />
 
           </div>
@@ -168,6 +177,7 @@ export function TripDetailsPage() {
           setActivityTitle={setActivityTitle}
           setActivityDate={setActivityDate}
           setActivityTime={setActivityTime}
+          isAddActivityLoading={isAddActivityLoading}
         />
       )}
 
