@@ -24,7 +24,7 @@ export function TripDetailsPage() {
   const [isNewLinkModalOpen, setNewLinkModalOpen] = useState(false);
 
   const [isAddActivityLoading, setIsAddActivityLoading] = useState(false)
-  // const [isAddLinkLoading, setIsAddLinkLoading] = useState(false)
+  const [isAddLinkLoading, setIsAddLinkLoading] = useState(false)
 
 
   function closeActivityModal() {
@@ -90,8 +90,12 @@ export function TripDetailsPage() {
     event.preventDefault();
 
     if (!title || !url || !tripId) {
+
+      window.alert('The fields "Link Title" and "URL" must be filled to save a link.')
       return
     }
+
+    setIsAddLinkLoading(true)
 
     const response = await api.post(`/trips/${tripId}/links/create`, {
       title: title,
@@ -100,11 +104,13 @@ export function TripDetailsPage() {
 
     if (response.status !== 200) {
       window.alert('Connection Error.')
+      setIsAddLinkLoading(false)
       return
     }
 
     setReMount(!reMount)
     closeNewLinkModal()
+    setIsAddLinkLoading(false)
   }
 
   // Remove Link
@@ -147,7 +153,6 @@ export function TripDetailsPage() {
             <Activities
               reMount={reMount}
               removeActivity={removeActivity}
-              isAddActivityLoading={isAddActivityLoading}
             />
 
           </div>
@@ -185,6 +190,7 @@ export function TripDetailsPage() {
         <NewLinkModal
           closeNewLinkModal={closeNewLinkModal}
           addLink={addLink}
+          isAddLinkLoading={isAddLinkLoading}
         />
       )}
 

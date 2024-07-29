@@ -1,14 +1,16 @@
-import { Link2, Tag, X } from "lucide-react";
+import { Link2, LoaderCircle, Tag, X } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { Button } from "../../../components/button";
 import { useParams } from "react-router-dom";
 
 interface NewLinkProps {
+  isAddLinkLoading: boolean
   closeNewLinkModal: () => void
   addLink: (event: FormEvent<HTMLFormElement>, title: string, url: string, tripId: string | undefined) => void
 }
 
 export function NewLinkModal({
+  isAddLinkLoading,
   closeNewLinkModal,
   addLink,
 }: NewLinkProps) {
@@ -70,8 +72,11 @@ export function NewLinkModal({
 
           </div>
 
-          <Button variant="primary" size="medium" width="full">
+          <Button disabled={isAddLinkLoading} variant="primary" size="medium" width="full">
             Save link
+            {isAddLinkLoading && (
+              <LoaderCircle className="size-5 loading" />
+            )}
           </Button>
         </form>
 
