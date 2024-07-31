@@ -30,8 +30,7 @@ export function CreateTripPage() {
   useEffect(() => {
 
     async function serverWake() {
-      const response = await api.get('/server/wake').then(response => response.data)
-      console.log(response)
+      await api.get('/server/wake').then(response => response.data)
     }
 
     serverWake()

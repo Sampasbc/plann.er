@@ -82,7 +82,7 @@ export function DestinationAndDateStep({
       {isDatePickerOpen && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
           {/* CARD */}
-          <div className='rounded-xl px-6 py-5 shadow-shape bg-zinc-900 space-y-5'>
+          <div className='flex flex-col rounded-xl px-6 py-5 shadow-shape bg-zinc-900 space-y-5'>
 
             {/* Title */}
             <div className='space-y-2'>
@@ -102,6 +102,10 @@ export function DestinationAndDateStep({
               showOutsideDays
               fixedWeeks
             />
+
+            <Button onClick={closeDatePicker} variant={!dateRange ? "disabled" : "primary"} size="small" width="full" disabled={!dateRange} className="justify-self-end">
+              Confirm
+            </Button>
 
           </div>
 
