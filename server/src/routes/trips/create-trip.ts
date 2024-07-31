@@ -25,7 +25,7 @@ export async function createTrip(app: FastifyInstance) {
     const { destination, starts_at, ends_at, owner_name, owner_email, emails_to_invite } = request.body;
 
     // Start date validation
-    if (dayjs(starts_at).isBefore(new Date())) {
+    if (dayjs(starts_at).isBefore(dayjs(new Date()).subtract(1, 'days'))) {
       throw new ClientError('Invalid trip start date.')
     }
 
