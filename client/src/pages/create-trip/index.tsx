@@ -6,6 +6,7 @@ import { DestinationAndDateStep } from './steps/destination-and-date-step';
 import { InviteGuestStep } from './steps/invite-guest-step';
 import { DateRange } from 'react-day-picker';
 import { api } from '../../lib/axios';
+import { isBefore, sub } from 'date-fns';
 
 export function CreateTripPage() {
 
@@ -37,6 +38,17 @@ export function CreateTripPage() {
   }, [])
 
   function openGuestInput() {
+
+    if (!destination || !dateRange) {
+      window.alert('Please provide the Destination and Date information.')
+      return
+    }
+
+    if (dateRange.from && isBefore(dateRange.from.toString(), sub(new Date(), { days: 1 }))) {
+      window.alert('The trip cannot start before today.')
+      return
+    }
+
     setIsGuestInputOpen(true);
   }
 
