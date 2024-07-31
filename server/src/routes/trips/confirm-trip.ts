@@ -40,7 +40,7 @@ export async function confirmTrip(app: FastifyInstance) {
 
     // Redirect if trip is alredy confirmed
     if (trip.is_confirmed) {
-      return reply.redirect(`${env.CLIENT_BASE_URL}:${env.CLIENT_PORT}/trips/${tripId}`)
+      return reply.redirect(`${env.CLIENT_BASE_URL}${env.CLIENT_PORT}/trips/${tripId}`)
     }
 
     await prisma.trip.update({
@@ -54,7 +54,7 @@ export async function confirmTrip(app: FastifyInstance) {
     await Promise.all(
       trip.participants.map(async (participant) => {
 
-        const confirmationLink = `${env.API_BASE_URL}:${env.PORT}/participants/${participant.id}/confim`
+        const confirmationLink = `${env.API_BASE_URL}${env.PORT}/participants/${participant.id}/confirm`
 
         const message = await mail.sendMail({
           from: {
@@ -87,6 +87,6 @@ export async function confirmTrip(app: FastifyInstance) {
       })
     )
 
-    return reply.redirect(`${env.CLIENT_BASE_URL}:${env.CLIENT_PORT}/trips/${tripId}`)
+    return reply.redirect(`${env.CLIENT_BASE_URL}${env.CLIENT_PORT}/trips/${tripId}`)
   })
 }

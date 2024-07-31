@@ -28,7 +28,7 @@ export async function confirmParticipation(app: FastifyInstance) {
     }
 
     if (invitedGuest.is_confirmed) {
-      return reply.redirect(`${env.CLIENT_BASE_URL}:${env.CLIENT_PORT}/trips/${invitedGuest.trip_id}`)
+      return reply.redirect(`${env.CLIENT_BASE_URL}${env.CLIENT_PORT}/trips/${invitedGuest.trip_id}`)
     }
 
     await prisma.participant.update({
@@ -36,6 +36,6 @@ export async function confirmParticipation(app: FastifyInstance) {
       data: { is_confirmed: true }
     })
 
-    return reply.redirect(`${env.CLIENT_BASE_URL}:${env.CLIENT_PORT}/trips/${invitedGuest.trip_id}`)
+    return reply.redirect(`${env.CLIENT_BASE_URL}${env.CLIENT_PORT}/trips/${invitedGuest.trip_id}`)
   })
 }

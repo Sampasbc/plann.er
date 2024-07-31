@@ -41,7 +41,7 @@ export async function inviteParticipant(app: FastifyInstance) {
 
     const mail = await getMailClient()
 
-    const confirmationLink = `${env.API_BASE_URL}:${env.PORT}/participants/${participant.id}/confirm`
+    const confirmationLink = `${env.API_BASE_URL}${env.PORT}/participants/${participant.id}/confirm`
 
     const message = await mail.sendMail({
       from: {
