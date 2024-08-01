@@ -21,6 +21,7 @@ import { updateActivity } from "./routes/activities/update-activity";
 import { deleteLink } from "./routes/links/remove-link";
 import { deleteActivity } from "./routes/activities/delete-activity";
 import { serverWake } from "./routes/misc/server-wake";
+import { deleteParticipant } from "./routes/participants/delete-participant";
 
 const app = fastify()
 
@@ -67,6 +68,9 @@ app.register(updateParticipant)
 
 // POST '/trips/:tripId/participants/invite'
 app.register(inviteParticipant)
+
+// DELETE '/participants/:participantId/delete'
+app.register(deleteParticipant)
 
 // POST '/trips/:tripId/activities/create'
 app.register(createActivity)
