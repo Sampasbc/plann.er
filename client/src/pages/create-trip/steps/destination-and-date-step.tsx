@@ -85,13 +85,16 @@ export function DestinationAndDateStep({
           <div className='flex flex-col rounded-xl px-6 py-5 shadow-shape bg-zinc-900 space-y-5'>
 
             {/* Title */}
-            <div className='space-y-2'>
+            <div className='space-y-2 flex flex-col'>
               <div className='flex items-center justify-between gap-2'>
                 <h2 className='text-lg font-semibold'>Select date</h2>
                 <button>
                   <X onClick={closeDatePicker} className='size-5 text-zinc-400' />
                 </button>
               </div>
+              <p className='text-sm text-zinc-400 text-left'>
+                Please select the <span className='text-zinc-300 font-bold'>Start</span> and <span className='text-zinc-300 font-bold'>End</span> date.
+              </p>
             </div>
 
             {/* Picker */}
