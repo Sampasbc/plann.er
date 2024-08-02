@@ -9,6 +9,8 @@ import { DestinationAndDateHeader } from "./destination-and-date-header";
 import { Button } from "../../components/button";
 import { api } from "../../lib/axios";
 import { useParams } from "react-router-dom";
+import { UpdateTripModal } from "./modals/update-trip-modal";
+import { DateRange } from "react-day-picker";
 
 export function TripDetailsPage() {
 
@@ -20,11 +22,15 @@ export function TripDetailsPage() {
 
   const [reMount, setReMount] = useState(false)
 
+  // Modal States
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
   const [isNewLinkModalOpen, setNewLinkModalOpen] = useState(false);
+  const [isUpdateTripModalOpen, setIsUpdateTripModalOpen] = useState(false)
 
+  // Loading States
   const [isAddActivityLoading, setIsAddActivityLoading] = useState(false)
   const [isAddLinkLoading, setIsAddLinkLoading] = useState(false)
+  const [isUpdatingTripLoading, setIsUpdatingTripLoading] = useState(false)
 
 
   function closeActivityModal() {
@@ -41,6 +47,14 @@ export function TripDetailsPage() {
 
   function closeNewLinkModal() {
     setNewLinkModalOpen(false);
+  }
+
+  function openUpdateTripModal() {
+    setIsUpdateTripModalOpen(true)
+  }
+
+  function closeUpdateTripModal() {
+    setIsUpdateTripModalOpen(false)
   }
 
   // Add Activity
@@ -72,7 +86,7 @@ export function TripDetailsPage() {
   }
 
   // Remove Activity
-  const removeActivity = async (id: string) => {
+  async function removeActivity(id: string) {
 
     const response = await api.delete(`/activities/${id}/delete`)
 
@@ -126,6 +140,34 @@ export function TripDetailsPage() {
     setReMount(!reMount)
   }
 
+  // Update Trip
+  async function updateTrip(event: FormEvent<HTMLFormElement>, destination: string, date: DateRange | undefined, tripId: string | undefined) {
+
+    event.preventDefault()
+    setIsUpdatingTripLoading(true)
+
+    if (!destination && !date) {
+      window.alert('At least one field must be filled.')
+      return
+    }
+
+    const response = await api.put(`/trips/${tripId}/update`, {
+      destination: destination,
+      starts_at: date?.from,
+      ends_at: date?.to,
+    })
+
+    if (response.status !== 200) {
+      window.alert('Connection Error.')
+      return
+    }
+
+    setReMount(!reMount)
+    closeUpdateTripModal()
+    setIsUpdatingTripLoading(false)
+
+  }
+
   return (
     <div className="h-screen py-10">
 
@@ -133,7 +175,10 @@ export function TripDetailsPage() {
       <div className="max-w-6xl space-y-8 mx-auto">
 
         {/* Header */}
-        <DestinationAndDateHeader />
+        <DestinationAndDateHeader
+          openUpdateTripModal={openUpdateTripModal}
+          reMount={reMount}
+        />
 
         {/* Main */}
         <main className="flex gap-16 px-6">
@@ -191,6 +236,14 @@ export function TripDetailsPage() {
           closeNewLinkModal={closeNewLinkModal}
           addLink={addLink}
           isAddLinkLoading={isAddLinkLoading}
+        />
+      )}
+
+      {isUpdateTripModalOpen && (
+        <UpdateTripModal
+          closeUpdateTripModal={closeUpdateTripModal}
+          updateTrip={updateTrip}
+          isUpdatingTripLoading={isUpdatingTripLoading}
         />
       )}
 

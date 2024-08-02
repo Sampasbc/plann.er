@@ -5,6 +5,11 @@ import { useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { format } from "date-fns";
 
+interface DestinationAndDateHeaderProps {
+  openUpdateTripModal: () => void
+  reMount: boolean
+}
+
 interface Trip {
   id: string
   destination: string
@@ -13,18 +18,20 @@ interface Trip {
   is_confirmed: boolean
 }
 
-export function DestinationAndDateHeader() {
+export function DestinationAndDateHeader({
+  openUpdateTripModal,
+  reMount,
+}: DestinationAndDateHeaderProps) {
 
   const { tripId } = useParams()
   const [trip, setTrip] = useState<Trip | undefined>()
 
   useEffect(() => {
     api.get(`/trips/${tripId}/details`).then(response => setTrip(response.data.trip))
-  }, [tripId])
+  }, [tripId, reMount])
 
   const displayDate =
-    trip &&
-      trip?.starts_at ?
+    trip && trip?.starts_at ?
       `${format(trip?.starts_at, 'MMM dd')} ${trip?.ends_at ? `to ${format(trip?.ends_at, 'MMM dd')}` : ''}` : '';
 
 
@@ -49,7 +56,7 @@ export function DestinationAndDateHeader() {
         <div className='w-px h-6 bg-zinc-800'></div>
 
         {/* Button */}
-        <Button variant='secondary' >
+        <Button onClick={() => openUpdateTripModal()} variant='secondary' >
           Change location/date
           <Settings2 className="size-5" />
         </Button>
