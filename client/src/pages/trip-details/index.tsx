@@ -148,8 +148,10 @@ export function TripDetailsPage() {
 
     if (!destination && !date) {
       window.alert('At least one field must be filled.')
+      setIsUpdatingTripLoading(false)
       return
     }
+
 
     const response = await api.put(`/trips/${tripId}/update`, {
       destination: destination,
