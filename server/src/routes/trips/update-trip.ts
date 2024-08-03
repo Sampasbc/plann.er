@@ -14,9 +14,9 @@ export async function updateTrip(app: FastifyInstance) {
         tripId: z.string().uuid(),
       }),
       body: z.object({
-        destination: z.string().min(4),
-        starts_at: z.coerce.date(),
-        ends_at: z.coerce.date(),
+        destination: z.string().min(4).optional(),
+        starts_at: z.coerce.date().optional(),
+        ends_at: z.coerce.date().optional(),
       })
     },
   }, async (request) => {
@@ -31,30 +31,51 @@ export async function updateTrip(app: FastifyInstance) {
       throw new ClientError('The trip you\'re looking for does not exist.')
     }
 
+    const initialStartDate = trip?.starts_at
+
     // Start date validation
-    if (dayjs(starts_at).isBefore(new Date())) {
+    if (starts_at && dayjs(starts_at).isBefore(initialStartDate)) {
       throw new ClientError('Invalid trip start date.')
     }
 
     // End date validation
-    if (dayjs(ends_at).isBefore(starts_at)) {
+    if (ends_at && dayjs(ends_at).isBefore(starts_at)) {
       throw new ClientError('Invalid trip end date.')
     }
 
+    type updateDataType = {
+      destination?: string
+      starts_at?: Date
+      ends_at?: Date
+    }
+
+    const updateData: updateDataType = {}
+
+    if (destination !== undefined) {
+      updateData.destination = destination
+    }
+
+    if (starts_at !== undefined) {
+      updateData.starts_at = starts_at
+    }
+
+    if (ends_at !== undefined) {
+      updateData.ends_at = ends_at
+    }
+
     // Create new Trip and Owner on Data Base
-    await prisma.trip.update({
+    const updatedTrip = await prisma.trip.update({
       where: { id: tripId },
-      data: {
-        destination,
-        starts_at,
-        ends_at,
-      }
+      data: updateData
     })
 
 
     return {
       message: 'Your trip was updated successfully!',
-      tripId: trip.id
+      tripId: updatedTrip.id,
+      destination: updatedTrip.destination,
+      starts_at: updatedTrip.starts_at,
+      ends_at: updatedTrip.ends_at
     }
 
   })
