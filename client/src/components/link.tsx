@@ -62,8 +62,8 @@ export function Link({
 
       {isConfirmDeletion && (
         <ConfirmDeletionModal
-          id={id}
           removeLink={removeLink}
+          onClick={() => removeLink(id)}
           closeConfirmDeletionModal={closeConfirmDeletionModal}
         />
       )}

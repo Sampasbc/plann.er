@@ -2,15 +2,14 @@ import { X } from "lucide-react";
 import { Button } from "../../../components/button";
 
 interface ConfirmDeletionModalProps {
-  id: string
+  onClick: () => void
   removeLink: (linkId: string) => void
   closeConfirmDeletionModal: () => void
 }
 
 export function ConfirmDeletionModal({
-  id,
   closeConfirmDeletionModal,
-  removeLink,
+  onClick,
 }: ConfirmDeletionModalProps) {
 
 
@@ -29,7 +28,7 @@ export function ConfirmDeletionModal({
           </div>
 
           <p className='text-sm text-zinc-400'>
-            This will remove the link for everyone on this trip
+            This will remove the link for everyone on this trip.
           </p>
         </div>
 
@@ -39,7 +38,7 @@ export function ConfirmDeletionModal({
             Cancel
           </Button>
 
-          <Button onClick={() => removeLink(id)} variant="danger" size="medium" width="full">
+          <Button onClick={onClick} variant="danger" size="medium" width="full">
             Remove link
             {/* {isRemoveLinkLoading && (
               <LoaderCircle className="size-5 loading" />
