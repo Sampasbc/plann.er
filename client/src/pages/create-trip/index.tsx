@@ -119,36 +119,41 @@ export function CreateTripPage() {
       !ownerEmail ||
       !emailsToInvite
     ) {
-
       window.alert('All the fields must be filled to create a trip.')
       return
     }
 
+    // Validade if there is at least one email invited
     if (emailsToInvite.length === 0) {
+      window.alert('You need to invite at least one email.')
       return
     }
 
     setIsConfirmTripLoading(true)
 
-    const response = await api.post('/trips', {
-      destination: destination,
-      starts_at: dateRange.from,
-      ends_at: dateRange.to,
-      owner_name: ownerName,
-      owner_email: ownerEmail,
-      emails_to_invite: emailsToInvite,
-    })
+    try {
+      const response = await api.post('/trips', {
+        destination: destination,
+        starts_at: dateRange.from,
+        ends_at: dateRange.to,
+        owner_name: ownerName,
+        owner_email: ownerEmail,
+        emails_to_invite: emailsToInvite,
+      })
 
-    if (response.status !== 200) {
-      window.alert('Connection Error!')
+      if (response.status !== 200) {
+        throw new Error('Connection Error!')
+      }
+
+      const { tripId } = response.data
+      navigate(`/trips/${tripId}`);
+
+    } catch (error) {
+      window.alert(error)
+    } finally {
       setIsConfirmTripLoading(false)
-      return
     }
 
-    const { tripId } = response.data
-
-    setIsConfirmTripLoading(false)
-    navigate(`/trips/${tripId}`);
   }
 
   // Class Variables
