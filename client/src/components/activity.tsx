@@ -10,6 +10,8 @@ interface ActivityProps {
   isDone: boolean
   occursAt: Date
   removeActivity: (id: string) => void
+  setActivityId: (id: string) => void
+  openConfirmDeletionModal: () => void
 }
 
 export function Activity({
@@ -17,7 +19,8 @@ export function Activity({
   title,
   isDone,
   occursAt,
-  removeActivity
+  setActivityId,
+  openConfirmDeletionModal
 }: ActivityProps) {
 
   const { tripId } = useParams()
@@ -39,9 +42,13 @@ export function Activity({
     setIsDoneState(!isDoneState)
   };
 
+  function handleOpenModal() {
+    openConfirmDeletionModal()
+    setActivityId(activityId)
+  }
 
   return (
-    <div>
+    <div className="parent">
 
       {/* activity */}
       <div className="space-y-3" onMouseEnter={() => setIsShowingOptions(true)} onMouseLeave={() => setIsShowingOptions(false)}>
@@ -58,12 +65,12 @@ export function Activity({
           <span className="flex-1 text-base leading-5 text-zinc-100">{title}</span>
           <span className="text-zinc-400 text-sm leading-5" >{formatedOccursAt}</span>
           {isShowingOptions && (
-            <button onClick={() => removeActivity(activityId)}>
+            <button onClick={handleOpenModal}>
+              {/* <button onClick={() => removeActivity(activityId)}> */}
               <XCircleIcon className="size-5 text-zinc-400 opacity-50 hover:opacity-100 hover:text-red-600" />
             </button>
           )}
         </div>
-
 
       </div>
 

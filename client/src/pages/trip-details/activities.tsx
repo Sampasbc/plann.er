@@ -20,11 +20,15 @@ interface ActivitiesType {
 interface AvtivitiesProps {
   reMount: boolean
   removeActivity: (id: string) => void
+  openConfirmDeletionModal: () => void
+  setActivityId: (id: string) => void
 }
 
 export function Activities({
   reMount,
-  removeActivity
+  removeActivity,
+  openConfirmDeletionModal,
+  setActivityId
 }: AvtivitiesProps) {
 
   const { tripId } = useParams()
@@ -33,11 +37,6 @@ export function Activities({
   useEffect(() => {
     api.get(`/trips/${tripId}/activities/get`).then(response => setDays(response.data.activities))
   }, [tripId, reMount])
-
-  // useEffect(() => {
-
-  //   console.log(days && days[26].activities)
-  // }, [days])
 
   return (
     <div className="flex flex-col gap-8">
@@ -61,6 +60,8 @@ export function Activities({
                   isDone={activity.is_done}
                   occursAt={activity.occurs_at}
                   removeActivity={removeActivity}
+                  setActivityId={setActivityId}
+                  openConfirmDeletionModal={openConfirmDeletionModal}
                 />
               )
             })}

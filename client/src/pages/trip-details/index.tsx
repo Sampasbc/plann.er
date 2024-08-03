@@ -11,6 +11,7 @@ import { api } from "../../lib/axios";
 import { useParams } from "react-router-dom";
 import { UpdateTripModal } from "./modals/update-trip-modal";
 import { DateRange } from "react-day-picker";
+import { ConfirmDeletionModal } from "./modals/confirm-deletion-modal";
 
 export function TripDetailsPage() {
 
@@ -19,6 +20,10 @@ export function TripDetailsPage() {
   const [activityTitle, setActivityTitle] = useState('')
   const [activityDate, setActivityDate] = useState('')
   const [activityTime, setActivityTime] = useState('')
+
+  // Remove Activity States
+  const [isConfirmDeletionModalOpen, setIsConfirmDeletionModalOpen] = useState(false)
+  const [activityId, setActivityId] = useState('')
 
   const [reMount, setReMount] = useState(false)
 
@@ -55,6 +60,14 @@ export function TripDetailsPage() {
 
   function closeUpdateTripModal() {
     setIsUpdateTripModalOpen(false)
+  }
+
+  function closeConfirmDeletionModal() {
+    setIsConfirmDeletionModalOpen(false)
+  }
+
+  function openConfirmDeletionModal() {
+    setIsConfirmDeletionModalOpen(true)
   }
 
   // Add Activity
@@ -95,6 +108,7 @@ export function TripDetailsPage() {
       return
     }
 
+    closeConfirmDeletionModal()
     setReMount(!reMount)
 
   }
@@ -217,6 +231,8 @@ export function TripDetailsPage() {
             <Activities
               reMount={reMount}
               removeActivity={removeActivity}
+              openConfirmDeletionModal={openConfirmDeletionModal}
+              setActivityId={setActivityId}
             />
 
           </div>
@@ -264,6 +280,16 @@ export function TripDetailsPage() {
           updateTrip={updateTrip}
           isUpdatingTripLoading={isUpdatingTripLoading}
         />
+      )}
+
+      {isConfirmDeletionModalOpen && (
+        <div className="opacity-100">
+          <ConfirmDeletionModal
+            onClick={() => removeActivity(activityId)}
+            closeConfirmDeletionModal={closeConfirmDeletionModal}
+            context={'activity'}
+          />
+        </div>
       )}
 
     </div>
