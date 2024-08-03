@@ -141,22 +141,39 @@ export function TripDetailsPage() {
   }
 
   // Update Trip
-  async function updateTrip(event: FormEvent<HTMLFormElement>, destination: string, date: DateRange | undefined, tripId: string | undefined) {
+  async function updateTrip(event: FormEvent<HTMLFormElement>, newDestination: string, date: DateRange | undefined, tripId: string | undefined) {
 
     event.preventDefault()
     setIsUpdatingTripLoading(true)
 
-    if (!destination && !date) {
+    if (!newDestination && !date) {
       window.alert('At least one field must be filled.')
       setIsUpdatingTripLoading(false)
       return
     }
 
+    const start = date?.from
+    const end = date?.to
+
+    function getDestination() {
+      if (!newDestination) return undefined
+      return newDestination
+    }
+
+    function getStartDate() {
+      if (!start) return undefined
+      return start
+    }
+
+    function getEndDate() {
+      if (!end) return undefined
+      return end
+    }
 
     const response = await api.put(`/trips/${tripId}/update`, {
-      destination: destination,
-      starts_at: date?.from,
-      ends_at: date?.to,
+      destination: getDestination(),
+      starts_at: getStartDate(),
+      ends_at: getEndDate(),
     })
 
     if (response.status !== 200) {
