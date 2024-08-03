@@ -27,6 +27,15 @@ export function Link({
     setIsConfirmDeletion(true)
   }
 
+  async function copyToClipboard(link: string) {
+    try {
+      await navigator.clipboard.writeText(link);
+      alert('Link copied to clipboard!');
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  }
+
   return (
     <div className="flex items-center justify-between"
       onMouseEnter={() => setIsShowingOptions(true)}
@@ -48,7 +57,7 @@ export function Link({
         </button>
       )}
       <button>
-        <Link2 className="text-zinc-400 size-5" />
+        <Link2 onClick={() => copyToClipboard(url)} className="text-zinc-400 size-5" />
       </button>
 
       {isConfirmDeletion && (
