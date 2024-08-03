@@ -1,5 +1,6 @@
 import { Link2, XCircleIcon } from "lucide-react";
 import { useState } from "react";
+import { ConfirmDeletionModal } from "../pages/trip-details/modals/confirm-deletion-modal";
 
 interface LinkProps {
   id: string
@@ -16,6 +17,15 @@ export function Link({
 }: LinkProps) {
 
   const [isShowingOptions, setIsShowingOptions] = useState<boolean>(false)
+  const [isConfirmDeletion, setIsConfirmDeletion] = useState<boolean>(false)
+
+  function closeConfirmDeletionModal() {
+    setIsConfirmDeletion(false)
+  }
+
+  function openConfirmDeletionModal() {
+    setIsConfirmDeletion(true)
+  }
 
   return (
     <div className="flex items-center justify-between"
@@ -33,13 +43,22 @@ export function Link({
       {isShowingOptions && (
         <button>
           <XCircleIcon className="text-zinc-400 size-5 opacity-50 hover:opacity-100 hover:text-red-600"
-            onClick={() => removeLink(id)}
+            onClick={() => openConfirmDeletionModal()}
           />
         </button>
       )}
       <button>
         <Link2 className="text-zinc-400 size-5" />
       </button>
+
+      {isConfirmDeletion && (
+        <ConfirmDeletionModal
+          id={id}
+          removeLink={removeLink}
+          closeConfirmDeletionModal={closeConfirmDeletionModal}
+        />
+      )}
+
     </div>
   )
 }
