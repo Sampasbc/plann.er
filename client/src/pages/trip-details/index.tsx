@@ -25,8 +25,6 @@ export function TripDetailsPage() {
   const [isConfirmDeletionModalOpen, setIsConfirmDeletionModalOpen] = useState(false)
   const [activityId, setActivityId] = useState('')
 
-  const [reMount, setReMount] = useState(false)
-
   // Modal States
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
   const [isNewLinkModalOpen, setNewLinkModalOpen] = useState(false);
@@ -37,6 +35,7 @@ export function TripDetailsPage() {
   const [isAddLinkLoading, setIsAddLinkLoading] = useState(false)
   const [isUpdatingTripLoading, setIsUpdatingTripLoading] = useState(false)
 
+  const [reMount, setReMount] = useState(false)
 
   function closeActivityModal() {
     setIsActivityModalOpen(false);
@@ -82,34 +81,40 @@ export function TripDetailsPage() {
 
     const occursAt = `${activityDate} ${activityTime}`
 
-    const response = await api.post(`/trips/${tripId}/activities/create`, {
-      title: activityTitle,
-      occurs_at: occursAt
-    })
+    try {
+      const response = await api.post(`/trips/${tripId}/activities/create`, {
+        title: activityTitle,
+        occurs_at: occursAt
+      })
 
-    if (response.status !== 200) {
-      window.alert('Connection Error.')
+      if (response.status !== 200) {
+        throw new Error('Connection Error.')
+      }
+    } catch (error) {
+      window.alert(error)
+    } finally {
       setIsAddActivityLoading(false)
-      return
+      closeActivityModal()
+      setReMount(!reMount)
     }
-
-    setReMount(!reMount)
-    closeActivityModal()
-    setIsAddActivityLoading(false)
   }
 
   // Remove Activity
   async function removeActivity(id: string) {
 
-    const response = await api.delete(`/activities/${id}/delete`)
+    try {
+      const response = await api.delete(`/activities/${id}/delete`)
 
-    if (response.status !== 204) {
-      window.alert('Connection Error.')
-      return
+      if (response.status !== 204) {
+        throw new Error('Connection Error.')
+      }
+    } catch (error) {
+      window.alert(error)
+    } finally {
+
+      closeConfirmDeletionModal()
+      setReMount(!reMount)
     }
-
-    closeConfirmDeletionModal()
-    setReMount(!reMount)
 
   }
 
@@ -125,33 +130,43 @@ export function TripDetailsPage() {
 
     setIsAddLinkLoading(true)
 
-    const response = await api.post(`/trips/${tripId}/links/create`, {
-      title: title,
-      url: url,
-    })
+    try {
 
-    if (response.status !== 200) {
-      window.alert('Connection Error.')
+      const response = await api.post(`/trips/${tripId}/links/create`, {
+        title: title,
+        url: url,
+      })
+
+      if (response.status !== 200) {
+        throw new Error('Connection Error.')
+      }
+    } catch (error) {
+      window.alert(error)
+    } finally {
+      setReMount(!reMount)
+      closeNewLinkModal()
       setIsAddLinkLoading(false)
-      return
     }
 
-    setReMount(!reMount)
-    closeNewLinkModal()
-    setIsAddLinkLoading(false)
+
   }
 
   // Remove Link
   async function removeLink(linkId: string) {
 
-    const response = await api.delete(`/links/${linkId}/delete`)
+    try {
 
-    if (response.status !== 204) {
-      window.alert('Connection Error.')
-      return
+      const response = await api.delete(`/links/${linkId}/delete`)
+
+      if (response.status !== 204) {
+        throw new Error('Connection Error.')
+      }
+    } catch (error) {
+      window.alert(error)
+    } finally {
+      setReMount(!reMount)
     }
 
-    setReMount(!reMount)
   }
 
   // Update Trip
@@ -184,20 +199,25 @@ export function TripDetailsPage() {
       return end
     }
 
-    const response = await api.put(`/trips/${tripId}/update`, {
-      destination: getDestination(),
-      starts_at: getStartDate(),
-      ends_at: getEndDate(),
-    })
+    try {
 
-    if (response.status !== 200) {
-      window.alert('Connection Error.')
-      return
+      const response = await api.put(`/trips/${tripId}/update`, {
+        destination: getDestination(),
+        starts_at: getStartDate(),
+        ends_at: getEndDate(),
+      })
+
+      if (response.status !== 200) {
+        throw new Error('Connection Error.')
+      }
+
+    } catch (error) {
+      window.alert(error)
+    } finally {
+      setReMount(!reMount)
+      closeUpdateTripModal()
+      setIsUpdatingTripLoading(false)
     }
-
-    setReMount(!reMount)
-    closeUpdateTripModal()
-    setIsUpdatingTripLoading(false)
 
   }
 

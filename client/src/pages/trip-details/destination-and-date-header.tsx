@@ -27,7 +27,20 @@ export function DestinationAndDateHeader({
   const [trip, setTrip] = useState<Trip | undefined>()
 
   useEffect(() => {
-    api.get(`/trips/${tripId}/details`).then(response => setTrip(response.data.trip))
+
+    async function fetchTripDetails() {
+      try {
+        const response = await api.get(`/trips/${tripId}/details`)
+        setTrip(response.data.trip)
+        if (response.status !== 200) {
+          throw new Error('Connection Error!')
+        }
+      } catch (error) {
+        window.alert(error)
+      }
+    }
+
+    fetchTripDetails()
   }, [tripId, reMount])
 
   const displayDate =
