@@ -23,9 +23,6 @@ export function ConfirmDeletionModal({
         <div className='space-y-2'>
           <div className='flex items-center justify-between'>
             <h2 className='text-lg font-semibold'>Are you sure you want to remove this {context}?</h2>
-            <button>
-              <X onClick={closeConfirmDeletionModal} className='size-5 text-zinc-400' />
-            </button>
           </div>
 
           <p className='text-sm text-zinc-400'>
