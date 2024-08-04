@@ -5,7 +5,7 @@ import { NewLinkModal } from "./modals/new-link-modal";
 import { ImportantLinks } from "./important-links";
 import { Guests } from "./guests";
 import { Activities } from "./activities";
-import { DestinationAndDateHeader } from "./destination-and-date-header";
+import { DestinationAndDateHeader, Trip } from "./destination-and-date-header";
 import { Button } from "../../components/button";
 import { api } from "../../lib/axios";
 import { useParams } from "react-router-dom";
@@ -16,6 +16,8 @@ import { ConfirmDeletionModal } from "./modals/confirm-deletion-modal";
 export function TripDetailsPage() {
 
   const { tripId } = useParams()
+
+  const [dateRange, setDateRange] = useState<Trip | undefined>(undefined)
 
   const [activityTitle, setActivityTitle] = useState('')
   const [activityDate, setActivityDate] = useState('')
@@ -80,6 +82,8 @@ export function TripDetailsPage() {
     setIsAddActivityLoading(true)
 
     const occursAt = `${activityDate} ${activityTime}`
+
+    console.log(occursAt)
 
     try {
       const response = await api.post(`/trips/${tripId}/activities/create`, {
@@ -230,6 +234,7 @@ export function TripDetailsPage() {
         {/* Header */}
         <DestinationAndDateHeader
           openUpdateTripModal={openUpdateTripModal}
+          setDateRange={setDateRange}
           reMount={reMount}
         />
 
@@ -277,6 +282,7 @@ export function TripDetailsPage() {
 
       {isActivityModalOpen && (
         <NewActivityModal
+          dateRange={dateRange}
           closeActivityModal={closeActivityModal}
           addActivity={addActivity}
           setActivityTitle={setActivityTitle}

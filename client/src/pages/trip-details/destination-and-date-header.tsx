@@ -7,10 +7,11 @@ import { format } from "date-fns";
 
 interface DestinationAndDateHeaderProps {
   openUpdateTripModal: () => void
+  setDateRange: (dateRange: Trip | undefined) => void
   reMount: boolean
 }
 
-interface Trip {
+export interface Trip {
   id: string
   destination: string
   starts_at: string
@@ -20,6 +21,7 @@ interface Trip {
 
 export function DestinationAndDateHeader({
   openUpdateTripModal,
+  setDateRange,
   reMount,
 }: DestinationAndDateHeaderProps) {
 
@@ -32,6 +34,7 @@ export function DestinationAndDateHeader({
       try {
         const response = await api.get(`/trips/${tripId}/details`)
         setTrip(response.data.trip)
+        setDateRange(response.data.trip)
         if (response.status !== 200) {
           throw new Error('Connection Error!')
         }
@@ -41,7 +44,7 @@ export function DestinationAndDateHeader({
     }
 
     fetchTripDetails()
-  }, [tripId, reMount])
+  }, [tripId, reMount, setDateRange])
 
   const displayDate =
     trip && trip?.starts_at ?

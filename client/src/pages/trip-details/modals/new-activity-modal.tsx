@@ -1,8 +1,11 @@
 import { Calendar, Clock, LoaderCircle, Tag, X } from "lucide-react";
 import { FormEvent } from "react";
 import { Button } from "../../../components/button";
+import { Trip } from "../destination-and-date-header";
+import { add, differenceInDays, format } from "date-fns";
 
 interface NewActivityProps {
+  dateRange: Trip | undefined
   isAddActivityLoading: boolean
   closeActivityModal: () => void
   addActivity: (event: FormEvent<HTMLFormElement>) => void
@@ -18,8 +21,27 @@ export function NewActivityModal({
   addActivity,
   setActivityTitle,
   setActivityDate,
-  setActivityTime
+  setActivityTime,
+  dateRange,
 }: NewActivityProps) {
+
+  const startDate = dateRange?.starts_at && format(dateRange?.starts_at, 'MM-dd-yyyy')
+  const endDate = dateRange?.ends_at && format(dateRange?.ends_at, 'MM-dd-yyyy')
+
+  let days: Array<string | Date> = []
+
+  // Get Array of days between start and end
+  if (startDate && endDate) {
+    const differenceInDaysBetweenTripStartAndEnd = differenceInDays(new Date(endDate), new Date(startDate))
+    days = Array.from({ length: differenceInDaysBetweenTripStartAndEnd + 1 }).map((_, index) => {
+      return format(add(startDate, { days: index }), 'yyyy-MM-dd')
+    })
+  }
+
+  function handleChange(value: string) {
+    setActivityDate(value)
+    console.log(value)
+  }
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -60,13 +82,17 @@ export function NewActivityModal({
               {/* Input Date*/}
               <div className='box-border h-14 w-[344px] px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2 '>
                 <Calendar className='text-zinc-400 size-5' />
-                <input
-                  type="date"
-                  name="activity_date"
-                  placeholder="Select date"
-                  className='bg-transparent text-base placeholder-zinc-400 outline-none flex-1'
-                  onChange={event => setActivityDate(event.target.value)}
-                />
+                <select
+                  name="date"
+                  id="date"
+                  onChange={event => handleChange(event.target.value)}
+                  className="w-full bg-transparent text-base placeholder-zinc-400 outline-none flex-1">
+                  {days.length > 0 && (days.map((day) => {
+                    return (
+                      <option key={day.toString()} value={day.toString()}>{format(day.toString(), 'MMMM dd')}</option>
+                    )
+                  }))}
+                </select>
               </div>
 
               {/* Input Time*/}
