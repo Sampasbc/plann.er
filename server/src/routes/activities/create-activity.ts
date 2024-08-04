@@ -21,6 +21,7 @@ export async function createActivity(app: FastifyInstance) {
     const { tripId } = request.params
     const { title, occurs_at } = request.body
 
+
     const trip = await prisma.trip.findUnique({
       where: { id: tripId },
     })
@@ -30,8 +31,14 @@ export async function createActivity(app: FastifyInstance) {
       throw new ClientError('The trip you\'re trying to add an activity does not exist.')
     }
 
+    // Format dates before validation
+    const formatedEndDate = dayjs(trip.ends_at).format('YYYY-MM-DD')
+    const formatedStartDate = dayjs(trip.starts_at).format('YYYY-MM-DD')
+    const formatedOccursAt = dayjs(occurs_at).format('YYYY-MM-DD')
+
+
     // Validate if activity occurs on trip time period
-    if (dayjs(occurs_at).isAfter(trip.ends_at) || dayjs(occurs_at).isBefore(trip.starts_at)) {
+    if (dayjs(formatedOccursAt).isAfter(formatedEndDate) || dayjs(formatedOccursAt).isBefore(formatedStartDate)) {
       throw new ClientError('The activity must be between the trip time period.')
     }
 
