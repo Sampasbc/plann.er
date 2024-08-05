@@ -87,9 +87,10 @@ export function NewActivityModal({
                   id="date"
                   onChange={event => handleChange(event.target.value)}
                   className="w-full bg-transparent text-base placeholder-zinc-400 outline-none flex-1">
+                  <option value="" disabled selected >Select a Day</option>
                   {days.length > 0 && (days.map((day) => {
                     return (
-                      <option key={day.toString()} value={day.toString()}>{format(day.toString(), 'MMMM dd')}</option>
+                      <option key={day.toString()} value={day.toString()}>{format(day, 'MMMM dd')}</option>
                     )
                   }))}
                 </select>
