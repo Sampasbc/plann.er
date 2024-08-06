@@ -24,3 +24,19 @@ input {
 .loading {
   animation: spin 1s linear infinite
 }
+
+@keyframes shift {
+  0% {
+    transform:
+      translateX(-0px) rotate(-2deg)
+  }
+
+  100% {
+    transform:
+      translateX(0px) rotate(2deg)
+  }
+}
+
+.managed {
+  animation: shift 150ms alternate linear infinite
+}

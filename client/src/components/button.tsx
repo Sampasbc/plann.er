@@ -18,6 +18,11 @@ const buttonVariants = tv({
     width: {
       full: 'w-full',
       content: '',
+    },
+    state: {
+      default: '',
+      active_primary: '',
+      active_secondary: 'bg-zinc-900 text-zinc-400 hover:bg-zinc-800 border-2 border-zinc-700',
     }
   },
 
@@ -25,6 +30,7 @@ const buttonVariants = tv({
     variant: 'primary',
     size: 'medium',
     width: 'content',
+    state: 'default',
   }
 
 })
@@ -38,12 +44,13 @@ export function Button({
   variant,
   size,
   width,
+  state,
   ...props
 }: ButtonProps) {
 
 
   return (
-    <button {...props} className={buttonVariants({ variant, size, width })} >
+    <button {...props} className={buttonVariants({ variant, size, width, state })} >
       {children}
     </button>
   )
