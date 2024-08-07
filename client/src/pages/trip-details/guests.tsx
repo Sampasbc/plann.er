@@ -14,11 +14,13 @@ interface ParticipantType {
 
 interface GuestsProps {
   removeGuest: (guestId: string) => void
+  updateGuestName: (name: string, guestId: string) => void
   reMount: boolean
 }
 
 export function Guests({
   removeGuest,
+  updateGuestName,
   reMount,
 }: GuestsProps) {
 
@@ -52,6 +54,7 @@ export function Guests({
               email={participant.email}
               isManageMode={isManageMode}
               removeGuest={removeGuest}
+              updateGuestName={updateGuestName}
             />
           )
         })}

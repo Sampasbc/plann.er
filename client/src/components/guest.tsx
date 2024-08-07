@@ -1,6 +1,7 @@
 import { CircleCheck, CircleDashed, Edit3, XCircleIcon } from "lucide-react"
 import { ConfirmDeletionModal } from "../pages/trip-details/modals/confirm-deletion-modal"
 import { useState } from "react"
+import { EditGuestNameModal } from "../pages/trip-details/modals/edit-guest-name-modal"
 
 interface GuestProps {
   id: string
@@ -10,6 +11,7 @@ interface GuestProps {
   email: string
   isManageMode: boolean
   removeGuest: (guestId: string) => void
+  updateGuestName: (name: string, guestId: string) => void
 }
 
 export function Guest({
@@ -20,9 +22,11 @@ export function Guest({
   email,
   isManageMode,
   removeGuest,
+  updateGuestName,
 }: GuestProps) {
 
   const [isConfirmDeletionModalOpen, setIsConfirmDeletionModalOpen] = useState(false)
+  const [isEditGuestNameModalOpen, setIsEditGuestNameModalOpen] = useState(false)
 
   function openConfirmDeletionModal() {
     setIsConfirmDeletionModalOpen(true)
@@ -37,6 +41,19 @@ export function Guest({
     closeConfirmDeletionModal()
   }
 
+  function openEditGuestNameModal() {
+    setIsEditGuestNameModalOpen(true)
+  }
+
+  function closeEditGuestNameModal() {
+    setIsEditGuestNameModalOpen(false)
+  }
+
+  function handleUpdateGuestName(newName: string) {
+    updateGuestName(newName, id)
+    closeEditGuestNameModal()
+  }
+
   return (
     <div>
       {/* single guest */}
@@ -46,7 +63,7 @@ export function Guest({
             {isManageMode && (
               <button>
                 <Edit3 className="text-zinc-600 size-5 opacity-100 hover:opacity-100 hover:text-zinc-400 managed"
-                  onClick={() => console.log('delete')}
+                  onClick={() => openEditGuestNameModal()}
                 />
               </button>
             )}
@@ -81,6 +98,13 @@ export function Guest({
           onClick={() => handleDeletion(id)}
           closeConfirmDeletionModal={closeConfirmDeletionModal}
           context={"guest"}
+        />
+      )}
+
+      {isEditGuestNameModalOpen && (
+        <EditGuestNameModal
+          handleUpdateGuestName={handleUpdateGuestName}
+          closeEditGuestNameModal={closeEditGuestNameModal}
         />
       )}
     </div>

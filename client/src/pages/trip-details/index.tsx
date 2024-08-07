@@ -227,6 +227,23 @@ export function TripDetailsPage() {
 
   // Invite Guest
 
+  // Edit Guest Name
+  async function updateGuestName(name: string, guestId: string) {
+    try {
+      const response = await api.put(`/participants/${guestId}/update`, {
+        name: name
+      })
+
+      if (response.status !== 200) {
+        throw new Error('Connection Error.')
+      }
+    } catch (error) {
+      window.alert(error)
+    } finally {
+      setReMount(!reMount)
+    }
+  }
+
   // Remove Guest
   async function removeGuest(guestId: string) {
 
@@ -240,7 +257,6 @@ export function TripDetailsPage() {
     } catch (error) {
       window.alert(error)
     } finally {
-      setIsConfirmDeletionModalOpen(false)
       setReMount(!reMount)
     }
   }
@@ -295,6 +311,7 @@ export function TripDetailsPage() {
 
             <Guests
               removeGuest={removeGuest}
+              updateGuestName={updateGuestName}
               reMount={reMount}
             />
           </div>
