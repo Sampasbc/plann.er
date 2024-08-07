@@ -3,19 +3,23 @@ import { ConfirmDeletionModal } from "../pages/trip-details/modals/confirm-delet
 import { useState } from "react"
 
 interface GuestProps {
+  id: string
   index: number
   isConfirmed: boolean
   name: string
   email: string
   isManageMode: boolean
+  removeGuest: (guestId: string) => void
 }
 
 export function Guest({
+  id,
   index,
   isConfirmed,
   name,
   email,
   isManageMode,
+  removeGuest,
 }: GuestProps) {
 
   const [isConfirmDeletionModalOpen, setIsConfirmDeletionModalOpen] = useState(false)
@@ -26,6 +30,11 @@ export function Guest({
 
   function closeConfirmDeletionModal() {
     setIsConfirmDeletionModalOpen(false)
+  }
+
+  function handleDeletion(guestId: string) {
+    removeGuest(guestId)
+    closeConfirmDeletionModal()
   }
 
   return (
@@ -69,7 +78,7 @@ export function Guest({
 
       {isConfirmDeletionModalOpen && (
         <ConfirmDeletionModal
-          onClick={() => console.log('bip')}
+          onClick={() => handleDeletion(id)}
           closeConfirmDeletionModal={closeConfirmDeletionModal}
           context={"guest"}
         />

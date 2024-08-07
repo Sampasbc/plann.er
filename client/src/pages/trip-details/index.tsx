@@ -225,6 +225,26 @@ export function TripDetailsPage() {
 
   }
 
+  // Invite Guest
+
+  // Remove Guest
+  async function removeGuest(guestId: string) {
+
+    try {
+      const response = await api.delete(`/participants/${guestId}/delete`)
+
+      if (response.status !== 204) {
+        throw new Error('Connection Error.')
+      }
+
+    } catch (error) {
+      window.alert(error)
+    } finally {
+      setIsConfirmDeletionModalOpen(false)
+      setReMount(!reMount)
+    }
+  }
+
   return (
     <div className="h-screen py-10">
 
@@ -273,7 +293,10 @@ export function TripDetailsPage() {
 
             <div className='h-px w-full bg-zinc-800'></div>
 
-            <Guests />
+            <Guests
+              removeGuest={removeGuest}
+              reMount={reMount}
+            />
           </div>
 
         </main>

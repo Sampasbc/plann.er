@@ -12,7 +12,15 @@ interface ParticipantType {
   email: string
 }
 
-export function Guests() {
+interface GuestsProps {
+  removeGuest: (guestId: string) => void
+  reMount: boolean
+}
+
+export function Guests({
+  removeGuest,
+  reMount,
+}: GuestsProps) {
 
   const { tripId } = useParams()
   const [participants, setParticipants] = useState<Array<ParticipantType>>()
@@ -21,7 +29,7 @@ export function Guests() {
 
   useEffect(() => {
     api.get(`/trips/${tripId}/participants/get`).then(response => setParticipants(response.data.participants))
-  }, [tripId])
+  }, [tripId, reMount])
 
   return (
     <div className="flex flex-col gap-6" >
@@ -37,11 +45,13 @@ export function Guests() {
           return (
             <Guest
               key={participant.id}
+              id={participant.id}
               index={index}
               isConfirmed={participant.is_confirmed}
               name={participant.name}
               email={participant.email}
               isManageMode={isManageMode}
+              removeGuest={removeGuest}
             />
           )
         })}
