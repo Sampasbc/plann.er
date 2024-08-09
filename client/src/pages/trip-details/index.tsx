@@ -12,30 +12,31 @@ import { useParams } from "react-router-dom";
 import { UpdateTripModal } from "./modals/update-trip-modal";
 import { DateRange } from "react-day-picker";
 import { ConfirmDeletionModal } from "./modals/confirm-deletion-modal";
+import { InviteGuestModal } from "./modals/invite-guest-modal";
 
 export function TripDetailsPage() {
 
   const { tripId } = useParams()
 
+  // Activity States
   const [dateRange, setDateRange] = useState<Trip | undefined>(undefined)
-
+  const [activityId, setActivityId] = useState('')
   const [activityTitle, setActivityTitle] = useState('')
   const [activityDate, setActivityDate] = useState('')
   const [activityTime, setActivityTime] = useState('')
-
-  // Remove Activity States
-  const [isConfirmDeletionModalOpen, setIsConfirmDeletionModalOpen] = useState(false)
-  const [activityId, setActivityId] = useState('')
 
   // Modal States
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
   const [isNewLinkModalOpen, setNewLinkModalOpen] = useState(false);
   const [isUpdateTripModalOpen, setIsUpdateTripModalOpen] = useState(false)
+  const [isInviteGuestModal, setIsInviteGuestModal] = useState<boolean>(false)
+  const [isConfirmDeletionModalOpen, setIsConfirmDeletionModalOpen] = useState(false)
 
   // Loading States
   const [isAddActivityLoading, setIsAddActivityLoading] = useState(false)
   const [isAddLinkLoading, setIsAddLinkLoading] = useState(false)
   const [isUpdatingTripLoading, setIsUpdatingTripLoading] = useState(false)
+  const [isInviteGuestLoading, setIsInviteGuestLoading] = useState(false)
 
   const [reMount, setReMount] = useState(false)
 
@@ -70,6 +71,15 @@ export function TripDetailsPage() {
   function openConfirmDeletionModal() {
     setIsConfirmDeletionModalOpen(true)
   }
+
+  function openInviteGuestModal() {
+    setIsInviteGuestModal(true)
+  }
+
+  function closeInviteGuestModal() {
+    setIsInviteGuestModal(false)
+  }
+
 
   // Add Activity
   async function addActivity(event: FormEvent<HTMLFormElement>) {
@@ -228,6 +238,27 @@ export function TripDetailsPage() {
   }
 
   // Invite Guest
+  async function inviteGuest(guestEmail: string) {
+    if (!guestEmail) {
+      window.alert('Please submit an email.')
+      return
+    }
+    setIsInviteGuestLoading(true)
+    try {
+      const response = await api.post(`/trips/${tripId}/participants/invite`, {
+        email: guestEmail
+      })
+      if (response.status !== 200) {
+        throw new Error('Connection Error.')
+      }
+    } catch (error) {
+      window.alert(error)
+    } finally {
+      setIsInviteGuestLoading(false)
+      closeInviteGuestModal()
+      setReMount(!reMount)
+    }
+  }
 
   // Edit Guest Name
   async function updateGuestName(name: string, guestId: string) {
@@ -314,6 +345,7 @@ export function TripDetailsPage() {
             <Guests
               removeGuest={removeGuest}
               updateGuestName={updateGuestName}
+              openInviteGuestModal={openInviteGuestModal}
               reMount={reMount}
             />
           </div>
@@ -347,6 +379,14 @@ export function TripDetailsPage() {
           closeUpdateTripModal={closeUpdateTripModal}
           updateTrip={updateTrip}
           isUpdatingTripLoading={isUpdatingTripLoading}
+        />
+      )}
+
+      {isInviteGuestModal && (
+        <InviteGuestModal
+          closeInviteGuestModal={closeInviteGuestModal}
+          inviteGuest={inviteGuest}
+          isInviteGuestLoading={isInviteGuestLoading}
         />
       )}
 

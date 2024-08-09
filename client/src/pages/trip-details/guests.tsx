@@ -13,6 +13,7 @@ interface ParticipantType {
 }
 
 interface GuestsProps {
+  openInviteGuestModal: () => void
   removeGuest: (guestId: string) => void
   updateGuestName: (name: string, guestId: string) => void
   reMount: boolean
@@ -21,6 +22,7 @@ interface GuestsProps {
 export function Guests({
   removeGuest,
   updateGuestName,
+  openInviteGuestModal,
   reMount,
 }: GuestsProps) {
 
@@ -28,6 +30,7 @@ export function Guests({
   const [participants, setParticipants] = useState<Array<ParticipantType>>()
 
   const [isManageMode, setIsManageMode] = useState<boolean>(false)
+
 
   useEffect(() => {
     api.get(`/trips/${tripId}/participants/get`).then(response => setParticipants(response.data.participants))
@@ -63,7 +66,7 @@ export function Guests({
       </div>
       <div className="flex flex-col gap-3">
         {isManageMode && (
-          <Button onClick={() => console.log('invite')} variant='primary' size="medium" >
+          <Button onClick={() => openInviteGuestModal()} variant='primary' size="medium" >
             <UserPlus className="size-5" />
             Invite a new guest
           </Button>
