@@ -76,14 +76,13 @@ export function TripDetailsPage() {
     event.preventDefault();
 
     if (!activityTitle || !activityDate || !activityTime || !tripId) {
+      window.alert('Missing information.')
       return
     }
 
     setIsAddActivityLoading(true)
 
     const occursAt = `${activityDate} ${activityTime}`
-
-    console.log(occursAt)
 
     try {
       const response = await api.post(`/trips/${tripId}/activities/create`, {
@@ -98,6 +97,9 @@ export function TripDetailsPage() {
       window.alert(error)
     } finally {
       setIsAddActivityLoading(false)
+      setActivityTime('')
+      setActivityDate('')
+      setActivityTime('')
       closeActivityModal()
       setReMount(!reMount)
     }
